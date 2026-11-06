@@ -25,11 +25,32 @@ Then open the local address Vite prints (usually http://localhost:5173).
 
 ## Viewing
 
-You walk through the booth at eye level, as if you were standing in it.
+You walk through the booth at eye level, as if you were standing in it.  It works on a computer and on a phone.
 
-## Build plan
+- **Computer:** drag to look; WASD or the arrow keys to walk.
+- **Phone:** drag to look; use the on-screen thumbstick to walk.
 
-1. **The empty room:** floor, ceiling, and four walls, with the window openings in the west wall and the door opening in the east wall.
-2. **The fixed pieces:** the electrical closet, conduit ledge, duct, exhaust box, and control box.
-3. **The door and rewind table.**
-4. **Finishing touches:** colors, lighting, the fire shutters, and their latches.
+You can't walk through the walls or the projector.
+
+## What's in the model so far
+
+- **Done:** the empty room, with the eight window openings in the west wall and the door opening in the east wall.
+- **Done:** the Barco SP4K-12C projector, with its lens lined up on window 4, on a placeholder steel stand.
+- **Not yet:** the electrical closet, conduit ledge, duct, exhaust box, control box, door, rewind table, 35mm projectors, and finishing touches (colors, lighting, fire shutters and their latches).
+
+## Plan
+
+The goal is to decide where the Barco and the two 35mm projectors go.  The current idea is the digital projector in the center, with a 35 on each side and room to thread film on the right of each 35.
+
+1. Make the Barco movable, so you can slide it between ports and change the stand height.
+2. Add the 35mm projectors.
+3. Build the rest of the fixed pieces, then the door and rewind table.
+4. Finishing touches.
+
+## Guesses
+
+Some numbers are placeholders until they're measured: wall thickness, eye height, the Barco's lens position and lens size, the stand, and the control box width.  `AGENTS.md` has the full list.
+
+## For AI assistants
+
+`AGENTS.md` has the working notes, decisions so far, and how to rebuild the phone preview.
