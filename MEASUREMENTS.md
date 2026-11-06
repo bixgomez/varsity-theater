@@ -53,6 +53,16 @@ From Barco's spec sheet:
 - **Power:** 200 to 240V, 16A, single or three phase
 - **Lens position:** not on the spec sheet; check the installation manual's dimension drawing
 
+From Barco's safety manual (R5910027/14):
+
+- **Fire clearance:** keep a 16" (40 cm) zone around all outside surfaces free of flammable or combustible materials.
+- **Exhaust:** hot exhaust air must be vented outside the building.
+- **Mounting:** table mounting only; no other orientation is supported.
+- **Weight for lifting:** about 231 lb (104.6 kg); use a hoist.
+- **Beam safety (US cinemas):** within the hazard distance, the bottom of the beam must be at least 2.5 m (98") above the audience floor.  The hazard distance depends on the lens's throw ratio.
+- **Power:** the building needs a 40A breaker for the projector and a 16A breaker for its UPS inlet.
+- **Access:** the booth must be lockable so that only trained people can get in.
+
 The plan is to put the digital projector in the center, with a 35mm projector on each side.  Each 35mm projector needs threading room on its right side.
 
 ## Still to measure
