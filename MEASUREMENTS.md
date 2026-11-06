@@ -40,7 +40,25 @@ Numbered 1 to 8, south to north.  The low windows are probably projection ports 
 - **Duct:** runs the full width; 46 to 58 out from the east wall; 12 wide, 5.5 tall.
 - **Exhaust box:** 45.5 to 54 out from the west wall; 8.5 by 8.5; hangs 9.5 below the ceiling.
 
+## Equipment
+
+### Barco SP4K-12C (digital projector)
+
+From Barco's spec sheet:
+
+- **Size (W × L × H):** 27.95 × 42.13 × 21.54, including feet; 44.55 long with the B-lensholder
+- **Weight:** 198.5 lb
+- **Exhaust airflow:** 300 CFM
+- **Heat load:** 4600 BTU/h at max power
+- **Power:** 200 to 240V, 16A, single or three phase
+- **Lens position:** not on the spec sheet; check the installation manual's dimension drawing
+
+The plan is to put the digital projector in the center, with a 35mm projector on each side.  Each 35mm projector needs threading room on its right side.
+
 ## Still to measure
 
 - The exhaust box's distance from the south or north wall
 - The three shelves above the rewind table
+- Where the exhaust box leads, and whether its fan still works and can pull at least 300 CFM
+- The Barco's lens position on its front face
+- The 35mm projectors: model and dimensions
