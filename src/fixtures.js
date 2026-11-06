@@ -7,6 +7,7 @@ import {
   VERTICAL_CONDUIT,
   DUCT,
   EXHAUST_BOX,
+  CONTROL_BOX,
 } from './dimensions.js';
 
 // Fixed pieces of the booth.  Each builder returns the object and its
@@ -19,6 +20,7 @@ const TABLE_TOP = 1.5; // top thickness (guess)
 const TABLE_LEG = 2; // square leg size (guess)
 const CONDUIT_COLOR = 0xb8b4a6; // painted conduit (guess)
 const DUCT_COLOR = 0x9a9ea3; // galvanized steel (guess)
+const CONTROL_BOX_COLOR = 0x8a8d8f; // gray metal panel (guess)
 
 function material(color) {
   return new THREE.MeshStandardMaterial({ color, roughness: 0.8, metalness: 0 });
@@ -103,4 +105,26 @@ export function buildCeilingFixtures() {
     ),
   );
   return group;
+}
+
+// The wedge-shaped control box on the conduit ledge.  Its side profile (depth
+// out from the west wall, height from the floor) is extruded along the wall.
+export function buildControlBox() {
+  const c = CONTROL_BOX;
+  const profile = new THREE.Shape();
+  profile.moveTo(0, c.y0);
+  profile.lineTo(c.baseDepth, c.y0);
+  profile.lineTo(c.baseDepth, c.y0 + c.baseHeight);
+  profile.lineTo(c.topDepth, c.y1);
+  profile.lineTo(0, c.y1);
+  profile.closePath();
+
+  const geometry = new THREE.ExtrudeGeometry(profile, { depth: c.x1 - c.x0, bevelEnabled: false });
+  const controlBox = new THREE.Mesh(geometry, material(CONTROL_BOX_COLOR));
+  // The profile's x becomes depth from the west wall (z).  Its extrusion runs
+  // toward the south, so start at the north edge.
+  controlBox.rotation.y = -Math.PI / 2;
+  controlBox.position.x = c.x1;
+  controlBox.name = 'control-box';
+  return controlBox;
 }

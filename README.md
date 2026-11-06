@@ -56,7 +56,8 @@ You can't walk through the walls or the projector.
 - **Done:** the Barco SP4K-12C projector, with its lens lined up on window 4, on a placeholder steel stand.
 - **Done:** the electrical closet (a plain block) and the rewind table (a simple table; the shelves above it are not measured yet).
 - **Done:** the conduit ledge and vertical conduit on the west wall, and the duct and exhaust box in the ceiling.  The vertical conduit's top height and the exhaust box's position along the wall are guesses.
-- **Not yet:** the control box, door, 35mm projectors, and finishing touches (colors, lighting, fire shutters and their latches).
+- **Done:** the wedge-shaped control box on the conduit ledge (plain; no switches yet).
+- **Not yet:** the door, 35mm projectors, and finishing touches (colors, lighting, fire shutters and their latches).
 
 ## Plan
 

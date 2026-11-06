@@ -12,7 +12,7 @@ All measurements are in inches.  Unless noted otherwise, horizontal positions ar
 
 - **Conduit ledge:** runs the full width; 32.5 to 39 high; 3.5 deep.
 - **Vertical conduit:** at the south end; 6.5 wide, 3.25 deep; runs up from the ledge.
-- **Control box:** a wedge-shaped switch panel sitting on the ledge; 65 to 101 from south; 39 to 50.5 high; 7 deep at the base, tapering to 3.5 deep from 3 above the base.  The 36 width is an estimate.
+- **Control box:** a wedge-shaped switch panel sitting on the ledge; 77 to 101 from south; 39 to 50.5 high; 7 deep at the base, tapering to 3.5 deep from 3 above the base.  The 24 width is an estimate (it was 36, which looked too wide).
 
 ### Window openings
 

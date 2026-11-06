@@ -47,6 +47,12 @@ export const CONDUIT_LEDGE = { y0: 32.5, y1: 39, depth: 3.5 };
 // ledge.  Its top height isn't measured; it's drawn up to the ceiling.
 export const VERTICAL_CONDUIT = { width: 6.5, depth: 3.25 };
 
+// Wedge-shaped control box sitting on the conduit ledge.  x0/x1: distance
+// from the south wall; the 24 in width is an estimate.  y0/y1: height from
+// the floor.  The base is baseDepth deep for the first baseHeight inches; the
+// front then slopes back to topDepth at the top.
+export const CONTROL_BOX = { x0: 77, x1: 101, y0: 39, y1: 50.5, baseDepth: 7, baseHeight: 3, topDepth: 3.5 };
+
 // Ceiling duct, running the full width.  z0/z1: distance out from the east
 // wall.  height: how far it hangs below the ceiling.
 export const DUCT = { z0: 46, z1: 58, height: 5.5 };

@@ -37,7 +37,7 @@ This is Richard's Three.js model of the projection booth at the Grand Illusion C
 - The Barco's lens position (estimated from Barco's front-view photo) and the lens barrel size, which depends on the lens.
 - The stand (a simple steel table; the height is set so the lens lines up with window 4).
 - Colors and lighting (rough matches to Richard's photos).
-- The control box width (36 in, Richard's estimate) and the exhaust box's position along the wall.
+- The control box width (24 in, Richard's estimate) and the exhaust box's position along the wall.
 
 ## Next steps
 
