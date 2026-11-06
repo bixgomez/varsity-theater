@@ -7,6 +7,8 @@ import { buildStand } from './equipment/stand.js';
 
 const EYE_HEIGHT = 64; // inches
 const WALL_MARGIN = 10; // keep the camera this far from the walls
+const MIN_FOV = 90; // vertical field of view, degrees; lower is more zoomed in
+const MAX_FOV = 110; // widest the view gets on tall phone screens
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -54,7 +56,7 @@ function fitCamera() {
   const minHorizontal = THREE.MathUtils.degToRad(60);
   const neededVertical = THREE.MathUtils.radToDeg(2 * Math.atan(Math.tan(minHorizontal / 2) / aspect));
   camera.aspect = aspect;
-  camera.fov = THREE.MathUtils.clamp(neededVertical, 70, 95);
+  camera.fov = THREE.MathUtils.clamp(neededVertical, MIN_FOV, MAX_FOV);
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 }

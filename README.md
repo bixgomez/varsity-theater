@@ -27,8 +27,26 @@ Then open the local address Vite prints (usually http://localhost:5173).
 
 You walk through the booth at eye level, as if you were standing in it.  It works on a computer and on a phone.
 
-- **Computer:** drag to look; WASD or the arrow keys to walk.
+- **Computer:** drag to look; use the keyboard to move (see below).
 - **Phone:** drag to look; use the on-screen thumbstick to walk.
+
+| Key | Action |
+| --- | --- |
+| Up arrow or `W` | Walk forward |
+| Down arrow or `S` | Walk backward |
+| `A` | Strafe left |
+| `D` | Strafe right |
+| Left arrow | Turn left |
+| Right arrow | Turn right |
+| `E` or Shift + Up arrow | Move up |
+| `Q` or Shift + Down arrow | Move down |
+| Shift + Left arrow | Strafe left |
+| Shift + Right arrow | Strafe right |
+| `Z` or Ctrl/Option + Up arrow | Tilt the view up |
+| `C` or Ctrl/Option + Down arrow | Tilt the view down |
+| `X` | Smoothly level the view |
+
+Moving up and down changes your eye height; you can't go below the floor.
 
 You can't walk through the walls or the projector.
 
