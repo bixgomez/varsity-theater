@@ -51,7 +51,7 @@ From Barco's spec sheet:
 - **Exhaust airflow:** 300 CFM
 - **Heat load:** 4600 BTU/h at max power
 - **Power:** 200 to 240V, 16A, single or three phase
-- **Lens position:** not on the spec sheet; check the installation manual's dimension drawing
+- **Lens position (estimated from Barco's front-view photo):** the lens center is about 8" in from the projector's right side (as seen from the front), about 20" from its left side, and about 11" above the bottom of its feet.  Once the projector faces west, that right side is its south side.  Confirm this with the installation manual's dimension drawing.
 
 From Barco's safety manual (R5910027/14):
 
