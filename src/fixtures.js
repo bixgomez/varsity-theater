@@ -1,5 +1,13 @@
 import * as THREE from 'three';
-import { ROOM, CLOSET, REWIND_TABLE } from './dimensions.js';
+import {
+  ROOM,
+  CLOSET,
+  REWIND_TABLE,
+  CONDUIT_LEDGE,
+  VERTICAL_CONDUIT,
+  DUCT,
+  EXHAUST_BOX,
+} from './dimensions.js';
 
 // Fixed pieces of the booth.  Each builder returns the object and its
 // footprint, { minX, maxX, minZ, maxZ }, for walking collisions.
@@ -9,6 +17,8 @@ const CLOSET_COLOR = 0xd9d4c5; // off-white, like the side walls (guess)
 const WOOD = 0x9e7c4a; // guess
 const TABLE_TOP = 1.5; // top thickness (guess)
 const TABLE_LEG = 2; // square leg size (guess)
+const CONDUIT_COLOR = 0xb8b4a6; // painted conduit (guess)
+const DUCT_COLOR = 0x9a9ea3; // galvanized steel (guess)
 
 function material(color) {
   return new THREE.MeshStandardMaterial({ color, roughness: 0.8, metalness: 0 });
@@ -53,4 +63,44 @@ export function buildRewindTable() {
   }
 
   return { table, footprint: { minX: t.x0, maxX: t.x1, minZ, maxZ } };
+}
+
+// A box described by its corners, in room coordinates.
+function box(name, color, [x0, y0, z0], [x1, y1, z1]) {
+  const mesh = new THREE.Mesh(
+    new THREE.BoxGeometry(x1 - x0, y1 - y0, z1 - z0),
+    material(color),
+  );
+  mesh.position.set((x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2);
+  mesh.name = name;
+  return mesh;
+}
+
+// The conduit on the west wall: a ledge across the full width, and a
+// vertical run at the south end from the ledge up to the ceiling.
+export function buildWestWallConduit() {
+  const group = new THREE.Group();
+  group.name = 'west-wall-conduit';
+  group.add(
+    box('conduit-ledge', CONDUIT_COLOR, [0, CONDUIT_LEDGE.y0, 0], [ROOM.width, CONDUIT_LEDGE.y1, CONDUIT_LEDGE.depth]),
+    box('vertical-conduit', CONDUIT_COLOR, [0, CONDUIT_LEDGE.y1, 0], [VERTICAL_CONDUIT.width, ROOM.height, VERTICAL_CONDUIT.depth]),
+  );
+  return group;
+}
+
+// The duct across the ceiling, and the exhaust box hanging from the ceiling.
+export function buildCeilingFixtures() {
+  const group = new THREE.Group();
+  group.name = 'ceiling-fixtures';
+  const east = ROOM.depth;
+  group.add(
+    box('duct', DUCT_COLOR, [0, ROOM.height - DUCT.height, east - DUCT.z1], [ROOM.width, ROOM.height, east - DUCT.z0]),
+    box(
+      'exhaust-box',
+      DUCT_COLOR,
+      [ROOM.width / 2 - EXHAUST_BOX.width / 2, ROOM.height - EXHAUST_BOX.hang, EXHAUST_BOX.z0],
+      [ROOM.width / 2 + EXHAUST_BOX.width / 2, ROOM.height, EXHAUST_BOX.z1],
+    ),
+  );
+  return group;
 }

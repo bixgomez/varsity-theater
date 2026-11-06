@@ -39,6 +39,23 @@ export const DOOR = { x0: 25, x1: 61, height: 80.5 };
 // x0/x1: distance from the south wall.  depth: out from the east wall.
 export const CLOSET = { x0: 0, x1: 21, depth: 50 };
 
+// Conduit ledge on the west wall, running the full width.
+// y0/y1: height from the floor.  depth: out from the west wall.
+export const CONDUIT_LEDGE = { y0: 32.5, y1: 39, depth: 3.5 };
+
+// Vertical conduit at the south end of the west wall, running up from the
+// ledge.  Its top height isn't measured; it's drawn up to the ceiling.
+export const VERTICAL_CONDUIT = { width: 6.5, depth: 3.25 };
+
+// Ceiling duct, running the full width.  z0/z1: distance out from the east
+// wall.  height: how far it hangs below the ceiling.
+export const DUCT = { z0: 46, z1: 58, height: 5.5 };
+
+// Exhaust box hanging from the ceiling.  z0/z1: distance out from the west
+// wall.  hang: how far it hangs below the ceiling.  Its position along the
+// wall isn't measured; it's centered between the south and north walls.
+export const EXHAUST_BOX = { z0: 45.5, z1: 54, width: 8.5, hang: 9.5 };
+
 // Rewind table next to the door, on its north side.
 // x0/x1: distance from the south wall.  gap: space between the table and the
 // east wall.

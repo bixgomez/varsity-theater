@@ -4,7 +4,7 @@ import { buildBooth, buildLights } from './booth.js';
 import { WalkControls } from './walk-controls.js';
 import { BARCO, buildBarco, placeBarco } from './equipment/barco.js';
 import { buildStand } from './equipment/stand.js';
-import { buildElectricalCloset, buildRewindTable } from './fixtures.js';
+import { buildElectricalCloset, buildRewindTable, buildWestWallConduit, buildCeilingFixtures } from './fixtures.js';
 
 const EYE_HEIGHT = 67; // inches (5'7")
 const WALL_MARGIN = 10; // keep the camera this far from the walls
@@ -36,7 +36,7 @@ scene.add(barco, stand);
 
 const { closet, footprint: closetFootprint } = buildElectricalCloset();
 const { table: rewindTable, footprint: tableFootprint } = buildRewindTable();
-scene.add(closet, rewindTable);
+scene.add(closet, rewindTable, buildWestWallConduit(), buildCeilingFixtures());
 
 const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 5000);
 
