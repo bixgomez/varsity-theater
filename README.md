@@ -54,7 +54,8 @@ You can't walk through the walls or the projector.
 
 - **Done:** the empty room, with the eight window openings in the west wall and the door opening in the east wall.
 - **Done:** the Barco SP4K-12C projector, with its lens lined up on window 4, on a placeholder steel stand.
-- **Not yet:** the electrical closet, conduit ledge, duct, exhaust box, control box, door, rewind table, 35mm projectors, and finishing touches (colors, lighting, fire shutters and their latches).
+- **Done:** the electrical closet (a plain block) and the rewind table (a simple table; the shelves above it are not measured yet).
+- **Not yet:** the conduit ledge, duct, exhaust box, control box, door, 35mm projectors, and finishing touches (colors, lighting, fire shutters and their latches).
 
 ## Plan
 

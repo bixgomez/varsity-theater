@@ -4,8 +4,9 @@ import { buildBooth, buildLights } from './booth.js';
 import { WalkControls } from './walk-controls.js';
 import { BARCO, buildBarco, placeBarco } from './equipment/barco.js';
 import { buildStand } from './equipment/stand.js';
+import { buildElectricalCloset, buildRewindTable } from './fixtures.js';
 
-const EYE_HEIGHT = 64; // inches
+const EYE_HEIGHT = 67; // inches (5'7")
 const WALL_MARGIN = 10; // keep the camera this far from the walls
 const MIN_FOV = 90; // vertical field of view, degrees; lower is more zoomed in
 const MAX_FOV = 110; // widest the view gets on tall phone screens
@@ -33,6 +34,10 @@ const barcoFootprint = placeBarco(barco, {
 const { stand, footprint: standFootprint } = buildStand({ ...barcoFootprint, minZ: barcoFootprint.maxZ - BARCO.length, top: barcoFootprint.bottom });
 scene.add(barco, stand);
 
+const { closet, footprint: closetFootprint } = buildElectricalCloset();
+const { table: rewindTable, footprint: tableFootprint } = buildRewindTable();
+scene.add(closet, rewindTable);
+
 const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 5000);
 
 const controls = new WalkControls(camera, renderer.domElement, {
@@ -44,9 +49,14 @@ const controls = new WalkControls(camera, renderer.domElement, {
     maxZ: ROOM.depth - WALL_MARGIN,
   },
 });
-controls.setObstacles([{ ...barcoFootprint, maxZ: Math.max(barcoFootprint.maxZ, standFootprint.maxZ) }, standFootprint]);
+controls.setObstacles([
+  { ...barcoFootprint, maxZ: Math.max(barcoFootprint.maxZ, standFootprint.maxZ) },
+  standFootprint,
+  closetFootprint,
+  tableFootprint,
+]);
 // Start near the rewind table, facing the windows.
-controls.setPosition(ROOM.width / 2, ROOM.depth - 24);
+controls.setPosition(ROOM.width / 2, ROOM.depth - 40);
 controls.setYaw(0);
 
 // On a tall phone screen, a fixed vertical field of view feels like looking

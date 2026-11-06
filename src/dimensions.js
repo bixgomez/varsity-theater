@@ -34,3 +34,12 @@ export const WINDOWS = [
 
 // East wall door opening.
 export const DOOR = { x0: 25, x1: 61, height: 80.5 };
+
+// Electrical closet in the southeast corner, floor to ceiling.
+// x0/x1: distance from the south wall.  depth: out from the east wall.
+export const CLOSET = { x0: 0, x1: 21, depth: 50 };
+
+// Rewind table next to the door, on its north side.
+// x0/x1: distance from the south wall.  gap: space between the table and the
+// east wall.
+export const REWIND_TABLE = { x0: 63, x1: 123.5, gap: 2, depth: 22, height: 38.5 };

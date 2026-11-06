@@ -33,7 +33,7 @@ This is Richard's Three.js model of the projection booth at the Grand Illusion C
 ## Guesses to replace with real numbers
 
 - Wall thickness (6 in for the west wall, 4 in for the others).
-- Eye height (64 in).
+- Eye height (67 in, 5'7", set by Richard).
 - The Barco's lens position (estimated from Barco's front-view photo) and the lens barrel size, which depends on the lens.
 - The stand (a simple steel table; the height is set so the lens lines up with window 4).
 - Colors and lighting (rough matches to Richard's photos).
