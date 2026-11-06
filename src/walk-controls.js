@@ -29,6 +29,19 @@ export class WalkControls {
     this.#buildStick();
   }
 
+  // Footprints you can't walk through: { minX, maxX, minZ, maxZ }.
+  setObstacles(obstacles, margin = 8) {
+    this.obstacles = obstacles;
+    this.obstacleMargin = margin;
+  }
+
+  #blocked(x, z) {
+    const m = this.obstacleMargin ?? 0;
+    return (this.obstacles ?? []).some(
+      (o) => x > o.minX - m && x < o.maxX + m && z > o.minZ - m && z < o.maxZ + m,
+    );
+  }
+
   setPosition(x, z) {
     this.camera.position.set(x, this.eyeHeight, z);
   }
@@ -145,12 +158,14 @@ export class WalkControls {
     const cos = Math.cos(this.yaw);
     const step = WALK_SPEED * dt;
     const pos = this.camera.position;
-    pos.x += (-sin * forward + cos * right) * step;
-    pos.z += (-cos * forward - sin * right) * step;
-
     const b = this.bounds;
-    pos.x = THREE.MathUtils.clamp(pos.x, b.minX, b.maxX);
-    pos.z = THREE.MathUtils.clamp(pos.z, b.minZ, b.maxZ);
+
+    // Move one axis at a time, so you slide along an obstacle instead of
+    // sticking to it.
+    const nextX = THREE.MathUtils.clamp(pos.x + (-sin * forward + cos * right) * step, b.minX, b.maxX);
+    if (!this.#blocked(nextX, pos.z)) pos.x = nextX;
+    const nextZ = THREE.MathUtils.clamp(pos.z + (-cos * forward - sin * right) * step, b.minZ, b.maxZ);
+    if (!this.#blocked(pos.x, nextZ)) pos.z = nextZ;
     pos.y = this.eyeHeight;
 
     this.camera.rotation.set(this.pitch, this.yaw, 0);

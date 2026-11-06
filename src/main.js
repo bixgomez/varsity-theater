@@ -1,7 +1,9 @@
 import * as THREE from 'three';
-import { ROOM } from './dimensions.js';
+import { ROOM, WINDOWS } from './dimensions.js';
 import { buildBooth, buildLights } from './booth.js';
 import { WalkControls } from './walk-controls.js';
+import { BARCO, buildBarco, placeBarco } from './equipment/barco.js';
+import { buildStand } from './equipment/stand.js';
 
 const EYE_HEIGHT = 64; // inches
 const WALL_MARGIN = 10; // keep the camera this far from the walls
@@ -18,6 +20,17 @@ scene.background = new THREE.Color(0x1c2733);
 scene.add(buildBooth());
 scene.add(buildLights());
 
+// The Barco, with its lens lined up on window 4 (the center port).
+const LENS_TARGET = WINDOWS.find((w) => w.n === 4);
+const barco = buildBarco();
+const barcoFootprint = placeBarco(barco, {
+  lensX: (LENS_TARGET.x0 + LENS_TARGET.x1) / 2,
+  lensY: (LENS_TARGET.y0 + LENS_TARGET.y1) / 2,
+  lensFrontZ: 3, // inches from the west wall
+});
+const { stand, footprint: standFootprint } = buildStand({ ...barcoFootprint, minZ: barcoFootprint.maxZ - BARCO.length, top: barcoFootprint.bottom });
+scene.add(barco, stand);
+
 const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 5000);
 
 const controls = new WalkControls(camera, renderer.domElement, {
@@ -29,6 +42,7 @@ const controls = new WalkControls(camera, renderer.domElement, {
     maxZ: ROOM.depth - WALL_MARGIN,
   },
 });
+controls.setObstacles([{ ...barcoFootprint, maxZ: Math.max(barcoFootprint.maxZ, standFootprint.maxZ) }, standFootprint]);
 // Start near the rewind table, facing the windows.
 controls.setPosition(ROOM.width / 2, ROOM.depth - 24);
 controls.setYaw(0);
