@@ -18,7 +18,8 @@ This is Richard's Three.js model of the projection booth at the Grand Illusion C
 - Axes: x runs south to north (0 to 179), y runs floor to ceiling (0 to 87), z runs west to east (0 to 128).  The windows are in the west wall (z = 0); the door is in the east wall (z = 128).
 - The default camera looks down -z, so it faces the windows.
 - `src/dimensions.js` holds the room, window, and door numbers.  Keep it in sync with `MEASUREMENTS.md`.
-- `src/booth.js` builds the room; `src/equipment/` holds the projector and stand; `src/walk-controls.js` handles walking and looking.
+- `src/booth.js` builds the room; `src/fixtures.js` builds the closet, rewind table, conduit, duct, exhaust box, and control box; `src/equipment/` holds the projector and stand; `src/walk-controls.js` handles walking and looking.
+- Keyboard controls (walk, turn, move up and down, tilt, level) are listed in `README.md`.  The camera can't go below the floor or within 6 in of the ceiling.  Collisions only look at the floor plan, so you can't fly over a table or the projector.
 
 ## Design decisions already made
 
@@ -38,12 +39,13 @@ This is Richard's Three.js model of the projection booth at the Grand Illusion C
 - The stand (a simple steel table; the height is set so the lens lines up with window 4).
 - Colors and lighting (rough matches to Richard's photos).
 - The control box width (24 in, Richard's estimate) and the exhaust box's position along the wall.
+- The 35mm projectors: Richard doesn't know their makes, models, or sizes yet.  Use clearly labeled placeholder boxes until he has real numbers.  What we'll need for each: footprint, height, where the lens sits, and which side the film is threaded from.
 
 ## Next steps
 
 1. Make the Barco movable, so Richard can slide it between ports and change the stand height.
-2. Add the 35mm projectors once he has their model names and dimensions.
-3. Finish the fixed pieces: electrical closet, conduit ledge, duct, exhaust box, control box.  Then the door, the rewind table, and the finishing touches (see the build plan in `README.md`).
+2. Add the 35mm projectors, as labeled placeholders if he still doesn't have their sizes.
+3. Build the door (hinged on the closet side, opens into the booth).  Then the finishing touches (see the plan in `README.md`).
 
 ## The phone preview
 

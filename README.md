@@ -46,9 +46,9 @@ You walk through the booth at eye level, as if you were standing in it.  It work
 | `C` or Ctrl/Option + Down arrow | Tilt the view down |
 | `X` | Smoothly level the view |
 
-Moving up and down changes your eye height; you can't go below the floor.
+Moving up and down changes your eye height; you can't go below the floor or up through the ceiling.
 
-You can't walk through the walls or the projector.
+You can't walk through the walls, the projector, the electrical closet, or the rewind table.
 
 ## What's in the model so far
 
@@ -64,13 +64,13 @@ You can't walk through the walls or the projector.
 The goal is to decide where the Barco and the two 35mm projectors go.  The current idea is the digital projector in the center, with a 35 on each side and room to thread film on the right of each 35.
 
 1. Make the Barco movable, so you can slide it between ports and change the stand height.
-2. Add the 35mm projectors.
-3. Build the rest of the fixed pieces, then the door and rewind table.
+2. Add the 35mm projectors (their sizes aren't known yet, so they start as placeholders).
+3. Build the door.
 4. Finishing touches.
 
 ## Guesses
 
-Some numbers are placeholders until they're measured: wall thickness, eye height, the Barco's lens position and lens size, the stand, and the control box width.  `AGENTS.md` has the full list.
+Some numbers are placeholders until they're measured: wall thickness, eye height, the Barco's lens position and lens size, the stand, the control box width, and the 35mm projectors' sizes.  `AGENTS.md` has the full list.
 
 ## For AI assistants
 

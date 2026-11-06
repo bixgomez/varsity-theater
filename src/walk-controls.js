@@ -288,7 +288,7 @@ export class WalkControls {
     if (!this.#blocked(pos.x, nextZ)) pos.z = nextZ;
     if (m.up) pos.y += step;
     if (m.down) pos.y -= step;
-    pos.y = Math.max(pos.y, MIN_CAMERA_Y);
+    pos.y = THREE.MathUtils.clamp(pos.y, MIN_CAMERA_Y, b.maxY ?? Infinity);
 
     this.camera.rotation.set(this.pitch, this.yaw, 0);
   }

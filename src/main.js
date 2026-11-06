@@ -14,6 +14,7 @@ import {
 
 const EYE_HEIGHT = 67; // inches (5'7")
 const WALL_MARGIN = 10; // keep the camera this far from the walls
+const CEILING_MARGIN = 6; // keep the camera this far below the ceiling
 const MIN_FOV = 90; // vertical field of view, degrees; lower is more zoomed in
 const MAX_FOV = 110; // widest the view gets on tall phone screens
 
@@ -53,6 +54,7 @@ const controls = new WalkControls(camera, renderer.domElement, {
     maxX: ROOM.width - WALL_MARGIN,
     minZ: WALL_MARGIN,
     maxZ: ROOM.depth - WALL_MARGIN,
+    maxY: ROOM.height - CEILING_MARGIN,
   },
 });
 controls.setObstacles([
