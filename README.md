@@ -9,6 +9,20 @@ A Three.js model of the Grand Illusion Cinema's new home at the Varsity Theatre 
 
 See `MEASUREMENTS.md` for the booth measurements.
 
+## Running it
+
+You need Node.js 20.19 or newer.
+
+```sh
+npm install
+npm run dev
+```
+
+Then open the local address Vite prints (usually http://localhost:5173).
+
+- `npm run build` makes a production build in `dist/`.
+- `npm run preview` serves that build locally.
+
 ## Viewing
 
 You walk through the booth at eye level, as if you were standing in it.
