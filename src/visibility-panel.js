@@ -2,15 +2,20 @@
 // Each item: { id, label, objects: [THREE.Object3D], obstacles: [box] }.
 // A hidden item also stops blocking movement, so you can walk where it was.
 // onChange(shown, previous) sets the collision boxes; returning false keeps
-// the old state.
+// the old state.  hiddenIds: items to start hidden.  Returns shownItems() and
+// hiddenIds() so the caller can set collisions and save the state.
 
-export function bindVisibilityPanel(items, onChange) {
-  const list = document.querySelector('#show .show-list');
-  if (!list) return;
-
-  const visible = new Map(items.map((item) => [item.id, true]));
+export function bindVisibilityPanel(items, onChange, hiddenIds = []) {
+  const visible = new Map(items.map((item) => [item.id, !hiddenIds.includes(item.id)]));
 
   const shownItems = () => items.filter((item) => visible.get(item.id));
+  const api = {
+    shownItems,
+    hiddenIds: () => items.filter((item) => !visible.get(item.id)).map((item) => item.id),
+  };
+
+  const list = document.querySelector('#show .show-list');
+  if (!list) return api;
 
   const render = () => {
     for (const item of items) {
@@ -24,7 +29,7 @@ export function bindVisibilityPanel(items, onChange) {
     button.type = 'button';
     button.className = 'show-toggle';
     button.textContent = item.label;
-    button.setAttribute('aria-pressed', 'true');
+    button.setAttribute('aria-pressed', String(visible.get(item.id)));
     button.addEventListener('click', () => {
       button.blur();
       const previous = shownItems();
@@ -45,4 +50,5 @@ export function bindVisibilityPanel(items, onChange) {
   }
 
   render();
+  return api;
 }

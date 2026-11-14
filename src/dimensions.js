@@ -67,4 +67,23 @@ export const EXHAUST_BOX = { z0: 45.5, z1: 54, width: 8.5, hang: 9.5 };
 // Rewind table next to the door, on its north side.
 // x0/x1: distance from the south wall.  gap: space between the table and the
 // east wall.
-export const REWIND_TABLE = { x0: 63, x1: 123.5, gap: 2, depth: 22, height: 38.5 };
+export const REWIND_TABLE = { x0: 65, x1: 125.5, gap: 2, depth: 22, height: 38.5 };
+
+// Three wood shelves on the east wall above the rewind table, on metal
+// brackets.  Their north ends line up with the rewind table's north end
+// (REWIND_TABLE.x1).  Width, depth, thickness, and that alignment are from
+// Richard.  tops: height of each shelf's top surface from the floor, bottom to
+// top; these are guesses read off the east wall photo, not measured.
+export const EAST_SHELVES = {
+  width: 48,
+  depth: 11,
+  thickness: 0.75,
+  tops: [53, 62, 71],
+};
+
+// Round wall clock on the east wall, just north of the shelves.  size (10 in
+// across) is from Richard.  gap: space between the shelves' north end and the
+// clock's edge.  centerY: height of the clock's center from the floor.  depth:
+// how far it stands off the wall.  gap, centerY, and depth are guesses from
+// the east wall photo, not measured.
+export const EAST_CLOCK = { size: 10, gap: 8, centerY: 66, depth: 1.5 };

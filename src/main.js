@@ -5,6 +5,7 @@ import { WalkControls } from './walk-controls.js';
 import { buildFlySpace } from './fly-space.js';
 import { bindInfoPanel } from './info-panel.js';
 import { bindVisibilityPanel } from './visibility-panel.js';
+import { loadDevSession, saveDevSessionOnLeave } from './dev-session.js';
 import { BARCO, buildBarco, placeBarco } from './equipment/barco.js';
 import { buildStand } from './equipment/stand.js';
 import {
@@ -13,6 +14,9 @@ import {
   buildWestWallConduit,
   buildControlBox,
   buildCeilingFixtures,
+  buildEastShelves,
+  buildEastClock,
+  buildOpenDoor,
 } from './fixtures.js';
 
 const EYE_HEIGHT = 67; // inches (5'7")
@@ -48,7 +52,10 @@ scene.add(barco, stand);
 const { closet, footprint: closetFootprint } = buildElectricalCloset();
 const { table: rewindTable, footprint: tableFootprint } = buildRewindTable();
 const controlBox = buildControlBox();
-scene.add(closet, rewindTable, buildWestWallConduit(), controlBox, buildCeilingFixtures());
+const { shelves: eastShelves, obstacle: shelvesObstacle } = buildEastShelves();
+const eastClock = buildEastClock();
+const { door: eastDoor, obstacle: doorObstacle } = buildOpenDoor();
+scene.add(closet, rewindTable, buildWestWallConduit(), controlBox, buildCeilingFixtures(), eastShelves, eastClock, eastDoor);
 
 const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 5000);
 
@@ -59,7 +66,8 @@ const controls = new WalkControls(camera, renderer.domElement, {
 });
 // Everything in the booth blocks you from floor to ceiling.
 const inBooth = { minY: 0, maxY: ROOM.height };
-const closetObstacles = [{ ...closetFootprint, ...inBooth }];
+// The open door stands between the closet and the door opening.
+const closetObstacles = [{ ...closetFootprint, ...inBooth }, doorObstacle];
 // Pieces you can show and hide from the side panel.  Hidden pieces stop
 // blocking you too.
 const toggleable = [
@@ -91,6 +99,20 @@ const toggleable = [
       minY: CONTROL_BOX.y0,
       maxY: CONTROL_BOX.y1,
     }],
+  },
+  {
+    id: 'east-shelves',
+    label: 'East wall shelves',
+    objects: [eastShelves],
+    // Blocks only the heights the shelves span.
+    obstacles: [shelvesObstacle],
+  },
+  {
+    id: 'east-clock',
+    label: 'Wall clock',
+    objects: [eastClock],
+    // Flat on the wall; the wall margin already keeps you off it.
+    obstacles: [],
   },
 ];
 const setObstaclesFor = (shown) => {
@@ -197,6 +219,7 @@ renderer.setAnimationLoop((time) => {
   // While flying home, the glide drives the camera instead of your input.
   if (homeGlide) stepHomeGlide(dt);
   else controls.update(dt);
+  eastClock.userData.update();
   renderer.render(scene, camera);
 });
 
@@ -204,4 +227,20 @@ renderer.setAnimationLoop((time) => {
 window.booth = { scene, camera, controls };
 
 bindInfoPanel();
-bindVisibilityPanel(toggleable, setShown);
+
+// On the dev server, a reload (say, after a code change) puts you back where
+// you were, with the same Show toggles off.  See dev-session.js.
+const session = loadDevSession();
+const panel = bindVisibilityPanel(toggleable, setShown, session?.hidden ?? []);
+setObstaclesFor(panel.shownItems());
+if (session && controls.canBeAt(session.x, session.y, session.z)) {
+  camera.position.set(session.x, session.y, session.z);
+  controls.setYaw(session.yaw);
+  controls.pitch = session.pitch;
+  // Step out if something new (say, a piece added in the code) is in the way.
+  controls.escapeObstacles();
+}
+saveDevSessionOnLeave(() => {
+  const { x, y, z } = camera.position;
+  return { x, y, z, yaw: controls.yaw, pitch: controls.pitch, hidden: panel.hiddenIds() };
+});

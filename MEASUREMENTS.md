@@ -31,9 +31,11 @@ Numbered 1 to 8, south to north.  The low windows are probably projection ports 
 
 ## East wall (door side)
 
-- **Door opening:** 25 to 61 from south; 80.5 tall.  The door is hinged on the south side and opens into the booth.
+- **Door opening:** 25 to 61 from south; 80.5 tall.  The door is hinged on the south side and opens into the booth.  The model shows it open, swung just past square so its edge rests on the electrical closet (door 1.5 thick per Richard; color and knob are guesses).
 - **Electrical closet:** in the southeast corner; 0 to 21 from south; runs 50 in from the east wall; floor to ceiling.
-- **Rewind table:** right next to the door on its north side, about 63 to 123.5 from south; 2 out from the east wall; 22 deep; 38.5 tall; partly open underneath.
+- **Rewind table:** right next to the door on its north side, about 65 to 125.5 from south (moved 2 in north by Richard; was 63 to 123.5); 2 out from the east wall; 22 deep; 38.5 tall; partly open underneath.
+- **Shelves above the rewind table:** three wood shelves on L-shaped metal brackets; each 48 wide, 11 deep, 3/4 thick; their north ends line up with the rewind table's north end (77.5 to 125.5 from south).  Heights not measured; the model puts the tops at 53, 62, and 71 (a guess from the photo, raised 3 in by Richard).
+- **Wall clock:** round, 10 across, on the east wall just north of the shelves.  Not measured; the model puts its edge 8 in north of the shelves (center 138.5 from south) and its center 66 up, both guesses from the photo.
 
 ## Ceiling
 
@@ -68,7 +70,7 @@ The plan is to put the digital projector in the center, with a 35mm projector on
 ## Still to measure
 
 - The exhaust box's distance from the south or north wall
-- The three shelves above the rewind table
+- The heights of the three shelves above the rewind table
 - Where the exhaust box leads, and whether its fan still works and can pull at least 300 CFM
 - The Barco's lens position on its front face
 - The 35mm projectors: model and dimensions
