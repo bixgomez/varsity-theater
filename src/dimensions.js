@@ -12,11 +12,13 @@ export const ROOM = {
   height: 87, // floor to ceiling (y)
 };
 
-// Wall thicknesses aren't measured yet; these are placeholders.
+// Wall, floor, and ceiling thicknesses aren't measured yet; Richard set
+// these as placeholders.  slab: floor and ceiling thickness.
 export const WALL = {
-  west: 6,
+  west: 4,
   east: 4,
   side: 4,
+  slab: 8,
 };
 
 // West wall window openings, numbered south to north.

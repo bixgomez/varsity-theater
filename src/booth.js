@@ -70,9 +70,9 @@ function buildSideWall(name, x) {
   return wall;
 }
 
+// Floor and ceiling slabs, flush with the outside faces of the walls.
 function buildSlab(name, y, color) {
-  const pad = 2 * WALL.side;
-  const geometry = new THREE.BoxGeometry(ROOM.width + pad, 2, ROOM.depth + WALL.west + WALL.east + pad);
+  const geometry = new THREE.BoxGeometry(ROOM.width + 2 * WALL.side, WALL.slab, ROOM.depth + WALL.west + WALL.east);
   const slab = new THREE.Mesh(geometry, material(color));
   slab.position.set(ROOM.width / 2, y, (ROOM.depth + WALL.east - WALL.west) / 2);
   slab.name = name;
@@ -87,8 +87,8 @@ export function buildBooth() {
     buildEastWall(),
     buildSideWall('south-wall', -WALL.side / 2),
     buildSideWall('north-wall', ROOM.width + WALL.side / 2),
-    buildSlab('floor', -1, COLORS.floor),
-    buildSlab('ceiling', ROOM.height + 1, COLORS.ceiling),
+    buildSlab('floor', -WALL.slab / 2, COLORS.floor),
+    buildSlab('ceiling', ROOM.height + WALL.slab / 2, COLORS.ceiling),
   );
   return booth;
 }

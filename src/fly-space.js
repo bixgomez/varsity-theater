@@ -7,7 +7,6 @@ import { ROOM, WALL, WINDOWS, DOOR } from './dimensions.js';
 
 const OPENING_MARGIN = 2; // inches the eye must stay inside an opening's edges
 const OUTER_LIMIT = 600; // inches you can fly out past the booth; a free choice, not a measurement
-const SLAB = 2; // floor and ceiling slab thickness, matching booth.js
 
 function box(minX, maxX, minY, maxY, minZ, maxZ) {
   return { minX, maxX, minY, maxY, minZ, maxZ };
@@ -31,8 +30,8 @@ export function buildFlySpace({ wallMargin, ceilingMargin }) {
   const shell = box(
     -WALL.side,
     ROOM.width + WALL.side,
-    -SLAB,
-    ROOM.height + SLAB,
+    -WALL.slab,
+    ROOM.height + WALL.slab,
     -WALL.west,
     ROOM.depth + WALL.east,
   );
