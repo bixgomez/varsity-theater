@@ -30,7 +30,7 @@ You walk through the booth at eye level, as if you were standing in it.  It work
 - **Computer:** drag to look; use the keyboard to move (see below; the on-screen hint lists the same keys).  On a trackpad, spread two fingers apart to walk forward and pinch them together to walk back.  Drag two fingers up or down to rise or sink, and left or right to slide sideways.
 - **Help:** the ? button in the top right opens a panel with every control and a short overview of the booth.  Esc or the close button hides it.
 - **Return home:** the Return home button at the top of the side panel, or `H`, glides you back to where you started over about 2.5 seconds.
-- **Phone:** drag to look; use the on-screen thumbstick to walk.  Spread two fingers apart to walk forward and pinch them together to walk back.  Drag with three fingers to move up and down or slide sideways.
+- **Phone:** the on-screen instructions are hidden to keep the view clear; the ? button has them.  The Menu button opens Return home and the Show toggles.  Drag to look; use the on-screen thumbstick to walk.  Spread two fingers apart to walk forward and pinch them together to walk back.  Drag with three fingers to move up and down or slide sideways.
 
 | Key | Action |
 | --- | --- |

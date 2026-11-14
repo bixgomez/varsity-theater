@@ -228,6 +228,50 @@ canvas {
   background: #e6b65a;
 }
 
+/* Menu button for the side panel; only on phones and small screens. */
+.menu-toggle {
+  display: none;
+  position: absolute;
+  top: calc(12px + env(safe-area-inset-top));
+  right: calc(52px + env(safe-area-inset-right));
+  height: 32px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 16px;
+  background: rgb(0 0 0 / 0.55);
+  color: #eee;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.menu-toggle[aria-expanded="true"] {
+  background: rgb(0 0 0 / 0.8);
+}
+
+/* On phones and small screens, keep the view clear: the instructions live
+   only in the help panel, and the side panel is a dropdown under the Menu
+   button, closed until you tap it. */
+@media (pointer: coarse), (max-width: 700px) {
+  .help {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .show {
+    top: calc(52px + env(safe-area-inset-top));
+    z-index: 1;
+  }
+
+  .show:not(.open) {
+    display: none;
+  }
+}
+
 /* The help panel opens on top of the toggles. */
 .info {
   z-index: 1;
