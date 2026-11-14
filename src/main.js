@@ -3,6 +3,8 @@ import { ROOM, WINDOWS } from './dimensions.js';
 import { buildBooth, buildLights } from './booth.js';
 import { WalkControls } from './walk-controls.js';
 import { buildFlySpace } from './fly-space.js';
+import { bindInfoPanel } from './info-panel.js';
+import { bindVisibilityPanel } from './visibility-panel.js';
 import { BARCO, buildBarco, placeBarco } from './equipment/barco.js';
 import { buildStand } from './equipment/stand.js';
 import {
@@ -14,7 +16,8 @@ import {
 } from './fixtures.js';
 
 const EYE_HEIGHT = 67; // inches (5'7")
-const WALL_MARGIN = 10; // keep the camera this far from the walls
+const WALL_MARGIN = 3; // keep the camera this far from the walls
+const OBSTACLE_MARGIN = 2; // keep the camera this far from the equipment
 const CEILING_MARGIN = 6; // keep the camera this far below the ceiling
 const MIN_FOV = 90; // vertical field of view, degrees; lower is more zoomed in
 const MAX_FOV = 110; // widest the view gets on tall phone screens
@@ -44,7 +47,8 @@ scene.add(barco, stand);
 
 const { closet, footprint: closetFootprint } = buildElectricalCloset();
 const { table: rewindTable, footprint: tableFootprint } = buildRewindTable();
-scene.add(closet, rewindTable, buildWestWallConduit(), buildControlBox(), buildCeilingFixtures());
+const controlBox = buildControlBox();
+scene.add(closet, rewindTable, buildWestWallConduit(), controlBox, buildCeilingFixtures());
 
 const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 5000);
 
@@ -55,12 +59,37 @@ const controls = new WalkControls(camera, renderer.domElement, {
 });
 // Everything in the booth blocks you from floor to ceiling.
 const inBooth = { minY: 0, maxY: ROOM.height };
-controls.setObstacles([
-  { ...barcoFootprint, maxZ: Math.max(barcoFootprint.maxZ, standFootprint.maxZ), ...inBooth },
-  { ...standFootprint, ...inBooth },
-  { ...closetFootprint, ...inBooth },
-  { ...tableFootprint, ...inBooth },
-]);
+const closetObstacles = [{ ...closetFootprint, ...inBooth }];
+// Pieces you can show and hide from the side panel.  Hidden pieces stop
+// blocking you too.
+const toggleable = [
+  {
+    id: 'barco',
+    label: 'Barco and stand',
+    objects: [barco, stand],
+    obstacles: [
+      { ...barcoFootprint, maxZ: Math.max(barcoFootprint.maxZ, standFootprint.maxZ), ...inBooth },
+      { ...standFootprint, ...inBooth },
+    ],
+  },
+  {
+    id: 'rewind-table',
+    label: 'Rewind table',
+    objects: [rewindTable],
+    obstacles: [{ ...tableFootprint, ...inBooth }],
+  },
+  {
+    id: 'control-box',
+    label: 'Control box',
+    objects: [controlBox],
+    obstacles: [], // the control box has never blocked movement
+  },
+];
+const setShown = (shown) => {
+  controls.setObstacles([...closetObstacles, ...shown.flatMap((item) => item.obstacles)], OBSTACLE_MARGIN);
+};
+setShown(toggleable);
+
 // Start near the rewind table, facing the windows.
 controls.setPosition(ROOM.width / 2, ROOM.depth - 40);
 controls.setYaw(0);
@@ -89,3 +118,6 @@ renderer.setAnimationLoop((time) => {
 
 // Expose for debugging in the browser console.
 window.booth = { scene, camera, controls };
+
+bindInfoPanel();
+bindVisibilityPanel(toggleable, setShown);

@@ -27,8 +27,9 @@ Then open the local address Vite prints (usually http://localhost:5173).
 
 You walk through the booth at eye level, as if you were standing in it.  It works on a computer and on a phone.
 
-- **Computer:** drag to look; use the keyboard to move (see below).
-- **Phone:** drag to look; use the on-screen thumbstick to walk.
+- **Computer:** drag to look; use the keyboard to move (see below; the on-screen hint lists the same keys).  On a trackpad, spread two fingers apart to walk forward and pinch them together to walk back.  Drag two fingers up or down to rise or sink, and left or right to slide sideways.
+- **Help:** the ? button in the top right opens a panel with every control and a short overview of the booth.  Esc or the close button hides it.
+- **Phone:** drag to look; use the on-screen thumbstick to walk.  Spread two fingers apart to walk forward and pinch them together to walk back.  Drag with three fingers to move up and down or slide sideways.
 
 | Key | Action |
 | --- | --- |
@@ -57,7 +58,7 @@ You can't walk through the walls, the projector, the electrical closet, or the r
 - **Done:** the electrical closet (a plain block) and the rewind table (a simple table; the shelves above it are not measured yet).
 - **Done:** the conduit ledge and vertical conduit on the west wall, and the duct and exhaust box in the ceiling.  The vertical conduit's top height and the exhaust box's position along the wall are guesses.
 - **Done:** the wedge-shaped control box on the conduit ledge (plain; no switches yet).
-- **Not yet:** the door, 35mm projectors, and finishing touches (colors, lighting, fire shutters and their latches).
+- **Not yet:** the door, 35mm projectors, and finishing touches (colors, lighting).
 
 ## Plan
 

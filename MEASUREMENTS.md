@@ -21,13 +21,13 @@ Numbered 1 to 8, south to north.  The low windows are probably projection ports 
 | # | From south | Height | Notes |
 |---|------------|--------|-------|
 | 1 | 8.75 to 25.25 | 43 to 53.25 | Low |
-| 2 | 32 to 44 | 57.5 to 70.5 | Sliding fire shutter, shown closed |
+| 2 | 32 to 44 | 57.5 to 70.5 | High |
 | 3 | 53.5 to 64.5 | 41 to 53 | Low; wood frame, shelf above |
-| 4 | 84.75 to 94 | 58.25 to 67.5 | Small; heavy frame; shutter above |
+| 4 | 84.75 to 94 | 58.25 to 67.5 | Small; heavy frame |
 | 5 | 113.5 to 124.5 | 40.5 to 52.5 | Low; wood frame, shelf above |
-| 6 | 132.5 to 142.5 | 58.25 to 68.75 | Shutter latches above |
-| 7 | 149.5 to 161.5 | 42 to 54.5 | Low; covered with cardboard |
-| 8 | 165 to 177 | 58 to 71 | Sliding fire shutter; height estimated |
+| 6 | 132.5 to 142.5 | 58.25 to 68.75 | High |
+| 7 | 149.5 to 161.5 | 42 to 54.5 | Low |
+| 8 | 165 to 177 | 58 to 71 | Height estimated |
 
 ## East wall (door side)
 

@@ -67,3 +67,142 @@ canvas {
     display: inline;
   }
 }
+
+/* Question mark button and the help panel it opens. */
+.info-toggle,
+.info-close {
+  border: 0;
+  color: #eee;
+  font: inherit;
+  cursor: pointer;
+}
+
+.info-toggle {
+  position: absolute;
+  top: calc(12px + env(safe-area-inset-top));
+  right: calc(12px + env(safe-area-inset-right));
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgb(0 0 0 / 0.55);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.info-toggle[aria-expanded="true"] {
+  background: rgb(0 0 0 / 0.8);
+}
+
+.info {
+  position: absolute;
+  top: calc(52px + env(safe-area-inset-top));
+  right: calc(12px + env(safe-area-inset-right));
+  width: min(500px, calc(100vw - 24px));
+  max-height: calc(100% - 64px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 10px 14px 14px;
+  border-radius: 6px;
+  background: rgb(0 0 0 / 0.75);
+  color: #eee;
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+.info[hidden] {
+  display: none;
+}
+
+.info-close {
+  float: right;
+  background: none;
+  font-size: 22px;
+  line-height: 1;
+  padding: 2px 4px;
+}
+
+.info h2 {
+  margin: 8px 0 4px;
+  font-size: 16px;
+}
+
+.info h3 {
+  margin: 10px 0 2px;
+  font-size: 14px;
+  color: #bbb;
+}
+
+.info ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.info p {
+  margin: 6px 0;
+}
+
+.info kbd {
+  display: inline-block;
+  min-width: 1.2em;
+  padding: 0 4px;
+  border: 1px solid rgb(255 255 255 / 0.35);
+  border-radius: 3px;
+  font: inherit;
+  font-size: 12px;
+  text-align: center;
+}
+
+/* Side panel of show and hide toggles, on the right below the ? button. */
+.show {
+  position: absolute;
+  top: calc(56px + env(safe-area-inset-top));
+  right: calc(12px + env(safe-area-inset-right));
+  padding: 8px 10px 10px;
+  border-radius: 6px;
+  background: rgb(0 0 0 / 0.55);
+  color: #eee;
+  font-size: 14px;
+}
+
+.show h2 {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #bbb;
+}
+
+.show-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.show-list li + li {
+  margin-top: 6px;
+}
+
+.show-toggle {
+  display: block;
+  width: 100%;
+  padding: 5px 10px;
+  border: 1px solid rgb(255 255 255 / 0.35);
+  border-radius: 4px;
+  background: rgb(255 255 255 / 0.18);
+  color: #eee;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.show-toggle[aria-pressed="false"] {
+  background: none;
+  color: #999;
+  text-decoration: line-through;
+}
+
+/* The help panel opens on top of the toggles. */
+.info {
+  z-index: 1;
+}

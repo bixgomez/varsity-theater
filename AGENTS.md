@@ -29,7 +29,6 @@ This is Richard's Three.js model of the projection booth at the Grand Illusion C
 - **The stand:** Richard plans to build a sturdy stand himself.  Barco requires a 16 inch zone around the projector with nothing flammable or combustible, and table mounting only, so model the stand in steel.  Design it for at least 231 lb.
 - **The control box** (the old wedge-shaped switch panel) will probably be removed, so it's low priority.
 - **The equipment rack** in the northeast corner is out of scope for now.
-- **The fire shutters** on windows 2 and 8 are sliding panels, modeled closed.
 
 ## Guesses to replace with real numbers
 

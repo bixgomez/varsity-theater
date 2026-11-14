@@ -25,13 +25,13 @@ export const WALL = {
 // x0/x1: distance from the south wall.  y0/y1: height from the floor.
 export const WINDOWS = [
   { n: 1, x0: 8.75, x1: 25.25, y0: 43, y1: 53.25 },
-  { n: 2, x0: 32, x1: 44, y0: 57.5, y1: 70.5 }, // sliding fire shutter
+  { n: 2, x0: 32, x1: 44, y0: 57.5, y1: 70.5 },
   { n: 3, x0: 53.5, x1: 64.5, y0: 41, y1: 53 },
   { n: 4, x0: 84.75, x1: 94, y0: 58.25, y1: 67.5 },
   { n: 5, x0: 113.5, x1: 124.5, y0: 40.5, y1: 52.5 },
   { n: 6, x0: 132.5, x1: 142.5, y0: 58.25, y1: 68.75 },
-  { n: 7, x0: 149.5, x1: 161.5, y0: 42, y1: 54.5 }, // cardboard
-  { n: 8, x0: 165, x1: 177, y0: 58, y1: 71 }, // sliding fire shutter
+  { n: 7, x0: 149.5, x1: 161.5, y0: 42, y1: 54.5 },
+  { n: 8, x0: 165, x1: 177, y0: 58, y1: 71 },
 ];
 
 // East wall door opening.

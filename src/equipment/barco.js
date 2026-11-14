@@ -73,11 +73,20 @@ export function buildBarco() {
 
   const glass = new THREE.Mesh(
     new THREE.CircleGeometry(b.lensRadius * 0.75, 40),
-    mat(0x3a5a7a, { metalness: 0.9, roughness: 0.1 }),
+    mat(0x3a5a7a, { metalness: 0.9, roughness: 0.1, emissive: 0xfff6e8, emissiveIntensity: 1.5 }),
   );
   glass.rotation.y = Math.PI; // face west
   glass.position.set(lensX, lensY, -b.lensHolderDepth - b.lensProtrusion - 0.01);
   g.add(glass);
+
+  // Light from the lens, shining west out the port.  The cone angle is a
+  // guess; the real throw depends on the lens fitted.
+  const lensFront = -b.lensHolderDepth - b.lensProtrusion;
+  const beam = new THREE.SpotLight(0xfff6e8, 6, 0, THREE.MathUtils.degToRad(12), 0.4, 0);
+  beam.name = 'lens-light';
+  beam.position.set(lensX, lensY, lensFront - 0.1);
+  beam.target.position.set(lensX, lensY, lensFront - 100);
+  g.add(beam, beam.target);
 
   return g;
 }

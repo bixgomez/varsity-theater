@@ -8,9 +8,47 @@
   </head>
   <body>
     <p class="help">
-      <span class="mouse">Drag to look.  WASD or arrow keys to move.  Q and E for height, Z and C to tilt, X to level.</span>
-      <span class="touch">Drag to look.  Use the stick to walk.</span>
+      <span class="mouse">Drag to look.  W and S to walk forward and back, A and D to slide left and right, left and right arrows to turn.  Q and E for height, Z and C to tilt, X to level.  Pinch the trackpad to walk forward or back; drag two fingers to rise, sink, or slide.</span>
+      <span class="touch">Drag to look.  Use the stick to walk.  Spread or pinch to walk forward or back.  Three fingers to rise, sink, or slide.</span>
     </p>
+    <nav id="show" class="show" aria-label="Show and hide">
+      <h2>Show</h2>
+      <ul class="show-list"></ul>
+    </nav>
+    <button class="info-toggle" type="button" aria-expanded="false" aria-controls="info" aria-label="Help and about the booth">?</button>
+    <aside id="info" class="info" hidden>
+      <button class="info-close" type="button" aria-label="Close">&times;</button>
+
+      <h2>Moving around</h2>
+      <h3>Keyboard</h3>
+      <ul>
+        <li><kbd>W</kbd> <kbd>S</kbd> or <kbd>&uarr;</kbd> <kbd>&darr;</kbd>: walk forward and back</li>
+        <li><kbd>A</kbd> <kbd>D</kbd> or Shift + <kbd>&larr;</kbd> <kbd>&rarr;</kbd>: slide left and right</li>
+        <li><kbd>&larr;</kbd> <kbd>&rarr;</kbd>: turn left and right</li>
+        <li><kbd>E</kbd> <kbd>Q</kbd> or Shift + <kbd>&uarr;</kbd> <kbd>&darr;</kbd>: rise and sink</li>
+        <li><kbd>Z</kbd> <kbd>C</kbd> or Ctrl/Option + <kbd>&uarr;</kbd> <kbd>&darr;</kbd>: tilt the view up and down</li>
+        <li><kbd>X</kbd>: level the view</li>
+      </ul>
+      <h3>Mouse and trackpad</h3>
+      <ul>
+        <li>Drag: look around</li>
+        <li>Double-click: glide 2' forward (Shift + double-click to glide back)</li>
+        <li>Spread two fingers: walk forward; pinch: walk back (Ctrl + scroll wheel does the same)</li>
+        <li>Two-finger drag: up and down to rise and sink, left and right to slide (a scroll wheel rises and sinks)</li>
+      </ul>
+      <h3>Phone and tablet</h3>
+      <ul>
+        <li>Drag: look around</li>
+        <li>Thumbstick: walk</li>
+        <li>Spread two fingers: walk forward; pinch: walk back</li>
+        <li>Three-finger drag: up and down to rise and sink, left and right to slide</li>
+      </ul>
+
+      <h2>About the booth</h2>
+      <p>The booth is about 14'11" long (south to north), 10'8" deep, and 7'3" tall.  Eight windows in the west wall look out to the auditorium.  The door is in the east wall, and the electrical closet fills the southeast corner.  You'll also find the rewind table, conduit along the west wall, and a control box.</p>
+      <p>The Barco SP4K-12C sits on a steel stand in the middle, with its lens pointing out of window 4.  The plan is a 35mm projector on each side of the Barco, with room to thread film on the right of each; those aren't in the model yet.</p>
+      <p>You can walk anywhere in the booth and fly out through any window or the door, but not through walls.  You stay 2" away from equipment and 3" away from walls, floor, and ceiling edges.  Window 4 is blocked because the Barco fills it.</p>
+    </aside>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

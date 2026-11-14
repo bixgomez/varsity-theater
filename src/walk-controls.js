@@ -3,6 +3,12 @@ import * as THREE from 'three';
 // Eye-level walk controls that work with a mouse and keyboard or a touch screen.
 //
 // Look: drag anywhere on the scene (mouse or finger).
+// Two-finger pinch (touch): spread out to walk forward, pinch in to walk back.
+// Three-finger drag (touch): up and down changes height, left and right
+// slides sideways.
+// Trackpad pinch (desktop): spread to walk forward, pinch to walk back.
+// Trackpad two-finger drag (desktop): up and down changes height, left and
+// right slides sideways.  Directions assume macOS natural scrolling.
 // Walk: the on-screen thumbstick on touch devices, or the keyboard:
 //   Up / W, Down / S   walk forward, back
 //   A, D               strafe left, right
@@ -15,11 +21,18 @@ import * as THREE from 'three';
 
 const LOOK_SPEED = 0.004; // radians per pixel dragged
 const WALK_SPEED = 48; // inches per second (a relaxed walk)
-const TURN_SPEED = 2; // radians per second (keyboard turn and tilt)
+const TILT_SPEED = 1; // radians per second (keyboard tilt: Z, C, Ctrl or Option + Up/Down)
+const YAW_SPEED = 1; // radians per second (left and right arrow turn)
 const NUDGE_DISTANCE = 24; // inches a double-click moves you forward
 const NUDGE_SPEED = 120; // inches per second while gliding
 const MAX_PITCH = THREE.MathUtils.degToRad(80);
 const STICK_RADIUS = 48; // pixels the knob can travel from center
+const DRIFT_SPEED = 0.3; // inches moved per pixel of three-finger drag
+const PINCH_SPEED = 0.5; // inches walked per pixel the two fingers close or spread
+const TRACKPAD_PINCH_SPEED = 0.5; // inches walked per unit of ctrl + wheel delta
+const SAFARI_PINCH_SPEED = 200; // inches walked per unit of gesture scale change
+const WHEEL_DRIFT_SPEED = 0.3; // inches moved per pixel of two-finger trackpad drag
+const WHEEL_LINE = 16; // pixels per line, for wheels that report in lines
 
 export class WalkControls {
   constructor(camera, element, { canBeAt, eyeHeight }) {
@@ -46,6 +59,11 @@ export class WalkControls {
     this.nudge = 0; // inches of forward glide still to travel
     this.stick = { x: 0, y: 0 }; // -1..1 each way
     this.lookPointer = null;
+    this.touches = new Map(); // touch pointers on the scene: id => { x, y }
+    this.multiTouch = false; // three fingers went down; stays on until all lift
+    this.pinch = false; // two fingers went down; stays on until all lift
+    this.pinchSpread = 0; // last distance between the two pinch fingers
+    this.drift = { forward: 0, right: 0, up: 0 }; // inches of touch gesture still to apply
 
     camera.rotation.order = 'YXZ';
     this.#bindLook();
@@ -87,7 +105,19 @@ export class WalkControls {
     el.style.touchAction = 'none';
 
     el.addEventListener('pointerdown', (e) => {
-      if (this.lookPointer !== null) return;
+      if (e.pointerType === 'touch') {
+        this.touches.set(e.pointerId, { x: e.clientX, y: e.clientY });
+        if (this.touches.size >= 3) {
+          this.multiTouch = true;
+          this.pinch = false;
+          this.lookPointer = null;
+        } else if (this.touches.size === 2 && !this.multiTouch) {
+          this.pinch = true;
+          this.pinchSpread = this.#spread();
+          this.lookPointer = null;
+        }
+      }
+      if (this.multiTouch || this.pinch || this.lookPointer !== null) return;
       this.lookPointer = e.pointerId;
       this.lastX = e.clientX;
       this.lastY = e.clientY;
@@ -95,6 +125,28 @@ export class WalkControls {
     });
 
     el.addEventListener('pointermove', (e) => {
+      const touch = this.touches.get(e.pointerId);
+      if (touch) {
+        const tdx = e.clientX - touch.x;
+        const tdy = e.clientY - touch.y;
+        touch.x = e.clientX;
+        touch.y = e.clientY;
+        if (this.multiTouch) {
+          // Average the fingers, so the move follows the middle of the hand.
+          const share = DRIFT_SPEED / this.touches.size;
+          this.drift.right += tdx * share;
+          this.drift.up -= tdy * share;
+          return;
+        }
+        if (this.pinch) {
+          if (this.touches.size === 2) {
+            const spread = this.#spread();
+            this.drift.forward += (spread - this.pinchSpread) * PINCH_SPEED;
+            this.pinchSpread = spread;
+          }
+          return;
+        }
+      }
       if (e.pointerId !== this.lookPointer) return;
       const dx = e.clientX - this.lastX;
       const dy = e.clientY - this.lastY;
@@ -112,9 +164,66 @@ export class WalkControls {
 
     const release = (e) => {
       if (e.pointerId === this.lookPointer) this.lookPointer = null;
+      this.touches.delete(e.pointerId);
+      if (this.touches.size === 0) {
+        this.multiTouch = false;
+        this.pinch = false;
+      }
     };
     el.addEventListener('pointerup', release);
     el.addEventListener('pointercancel', release);
+
+    // Trackpad pinch.  Chrome and Firefox report it as a wheel event with
+    // ctrlKey set (negative deltaY when spreading).  Safari sends its own
+    // gesture events with a scale instead.  Either way, block the browser's
+    // page zoom.  These listen on the window, so nothing layered over the
+    // scene can swallow them.  The amount joins the forward glide, which
+    // carries over from frame to frame, so a fast pinch isn't lost when one
+    // big step would land somewhere blocked.
+    let safariScale = null;
+    window.addEventListener(
+      'wheel',
+      (e) => {
+        // Over the help panel, let it scroll; still block page zoom.
+        if (e.target !== el) {
+          if (e.ctrlKey) e.preventDefault();
+          return;
+        }
+        e.preventDefault();
+        if (!e.ctrlKey) {
+          // Two-finger drag.  With natural scrolling, fingers moving up give
+          // a positive deltaY and fingers moving right a negative deltaX.
+          const unit = e.deltaMode === 1 ? WHEEL_LINE : 1;
+          this.drift.up += e.deltaY * unit * WHEEL_DRIFT_SPEED;
+          this.drift.right -= e.deltaX * unit * WHEEL_DRIFT_SPEED;
+          return;
+        }
+        if (safariScale !== null) return;
+        this.nudge -= e.deltaY * TRACKPAD_PINCH_SPEED;
+      },
+      { passive: false },
+    );
+    window.addEventListener('gesturestart', (e) => {
+      e.preventDefault();
+      safariScale = e.scale;
+    });
+    window.addEventListener('gesturechange', (e) => {
+      e.preventDefault();
+      if (safariScale === null || this.touches.size > 0) return;
+      this.nudge += (e.scale - safariScale) * SAFARI_PINCH_SPEED;
+      safariScale = e.scale;
+    });
+    window.addEventListener('gestureend', (e) => {
+      e.preventDefault();
+      safariScale = null;
+    });
+  }
+
+  // Distance in pixels between the first two touch points.
+  #spread() {
+    const [a, b] = this.touches.values();
+    if (!a || !b) return 0;
+    return Math.hypot(a.x - b.x, a.y - b.y);
   }
 
   #bindKeys() {
@@ -257,10 +366,10 @@ export class WalkControls {
     if (m.left) right -= 1;
 
     // Keyboard turn and tilt.  Left arrow turns left (positive yaw).
-    if (m.turnLeft) this.yaw += TURN_SPEED * dt;
-    if (m.turnRight) this.yaw -= TURN_SPEED * dt;
-    if (m.tiltUp) this.pitch += TURN_SPEED * dt;
-    if (m.tiltDown) this.pitch -= TURN_SPEED * dt;
+    if (m.turnLeft) this.yaw += YAW_SPEED * dt;
+    if (m.turnRight) this.yaw -= YAW_SPEED * dt;
+    if (m.tiltUp) this.pitch += TILT_SPEED * dt;
+    if (m.tiltDown) this.pitch -= TILT_SPEED * dt;
     this.pitch = THREE.MathUtils.clamp(this.pitch, -MAX_PITCH, MAX_PITCH);
 
     // Ease the tilt back to level.
@@ -288,11 +397,15 @@ export class WalkControls {
     const glide = Math.sign(this.nudge) * Math.min(Math.abs(this.nudge), NUDGE_SPEED * dt);
     this.nudge -= glide;
 
-    const nextX = pos.x + (-sin * forward + cos * right) * step - sin * glide;
+    const drift = this.drift;
+    const nextX = pos.x + (-sin * forward + cos * right) * step - sin * glide - sin * drift.forward + cos * drift.right;
     if (!this.#blocked(nextX, pos.y, pos.z)) pos.x = nextX;
-    const nextZ = pos.z + (-cos * forward - sin * right) * step - cos * glide;
+    const nextZ = pos.z + (-cos * forward - sin * right) * step - cos * glide - cos * drift.forward - sin * drift.right;
     if (!this.#blocked(pos.x, pos.y, nextZ)) pos.z = nextZ;
-    const nextY = pos.y + ((m.up ? 1 : 0) - (m.down ? 1 : 0)) * step;
+    const nextY = pos.y + ((m.up ? 1 : 0) - (m.down ? 1 : 0)) * step + drift.up;
+    drift.forward = 0;
+    drift.right = 0;
+    drift.up = 0;
     if (!this.#blocked(pos.x, nextY, pos.z)) pos.y = nextY;
 
     this.camera.rotation.set(this.pitch, this.yaw, 0);
