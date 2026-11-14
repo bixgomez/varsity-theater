@@ -13,22 +13,6 @@ canvas {
   display: block;
 }
 
-.help {
-  position: absolute;
-  top: calc(12px + env(safe-area-inset-top));
-  left: calc(12px + env(safe-area-inset-left));
-  padding: 6px 10px;
-  border-radius: 6px;
-  background: rgb(0 0 0 / 0.55);
-  color: #eee;
-  font-size: 14px;
-  pointer-events: none;
-}
-
-.help .touch {
-  display: none;
-}
-
 /* On-screen thumbstick, only on touch screens. */
 .stick {
   display: none;
@@ -57,14 +41,6 @@ canvas {
 @media (pointer: coarse) {
   .stick {
     display: block;
-  }
-
-  .help .mouse {
-    display: none;
-  }
-
-  .help .touch {
-    display: inline;
   }
 }
 
@@ -154,10 +130,12 @@ canvas {
   text-align: center;
 }
 
-/* Side panel of show and hide toggles, on the right below the ? button. */
+/* Side panel (Return home and the Show toggles): a dropdown under the Menu
+   button, closed until you tap or click it. */
 .show {
   position: absolute;
-  top: calc(56px + env(safe-area-inset-top));
+  z-index: 1;
+  top: calc(52px + env(safe-area-inset-top));
   right: calc(12px + env(safe-area-inset-right));
   padding: 8px 10px 10px;
   border-radius: 6px;
@@ -228,9 +206,8 @@ canvas {
   background: #e6b65a;
 }
 
-/* Menu button for the side panel; only on phones and small screens. */
+/* Menu button for the side panel, left of the ? button. */
 .menu-toggle {
-  display: none;
   position: absolute;
   top: calc(12px + env(safe-area-inset-top));
   right: calc(52px + env(safe-area-inset-right));
@@ -250,26 +227,9 @@ canvas {
   background: rgb(0 0 0 / 0.8);
 }
 
-/* On phones and small screens, keep the view clear: the instructions live
-   only in the help panel, and the side panel is a dropdown under the Menu
-   button, closed until you tap it. */
-@media (pointer: coarse), (max-width: 700px) {
-  .help {
-    display: none;
-  }
 
-  .menu-toggle {
-    display: block;
-  }
-
-  .show {
-    top: calc(52px + env(safe-area-inset-top));
-    z-index: 1;
-  }
-
-  .show:not(.open) {
-    display: none;
-  }
+.show:not(.open) {
+  display: none;
 }
 
 /* The help panel opens on top of the toggles. */

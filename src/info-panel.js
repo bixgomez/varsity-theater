@@ -1,8 +1,7 @@
-// Question mark button that shows and hides the help panel, and, on phones
-// and small screens, the Menu button that shows and hides the side panel
-// (Return home and the Show toggles).  Only one of the two opens at a time,
-// so they never pile up over the view.  On a desktop-sized screen the side
-// panel is always showing and the Menu button is hidden (see style.css).
+// Question mark button that shows and hides the help panel, and the Menu
+// button that shows and hides the side panel (Return home and the Show
+// toggles).  Both start closed, on every screen size, and only one opens at
+// a time, so they never pile up over the view.
 
 export function bindInfoPanel() {
   const toggle = document.querySelector('.info-toggle');
