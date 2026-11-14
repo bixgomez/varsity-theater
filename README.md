@@ -46,9 +46,9 @@ You walk through the booth at eye level, as if you were standing in it.  It work
 | `C` or Ctrl/Option + Down arrow | Tilt the view down |
 | `X` | Smoothly level the view |
 
-Moving up and down changes your eye height; you can't go below the floor or up through the ceiling.
+Moving up and down changes your eye height; inside the booth you can't go below the floor or up through the ceiling.
 
-You can't walk through the walls, the projector, the electrical closet, or the rewind table.
+You can't walk through the walls, the projector, the electrical closet, or the rewind table.  You can fly out of the booth through any of the eight windows or the door, and back in the same way; line up with an opening and use Q and E to get to its height.  Window 4 is blocked by the Barco in front of it.  Outside there's nothing modeled yet, just empty space up to about 50 ft from the booth.
 
 ## What's in the model so far
 

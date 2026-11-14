@@ -16,17 +16,16 @@ import * as THREE from 'three';
 const LOOK_SPEED = 0.004; // radians per pixel dragged
 const WALK_SPEED = 48; // inches per second (a relaxed walk)
 const TURN_SPEED = 2; // radians per second (keyboard turn and tilt)
-const MIN_CAMERA_Y = 0; // the camera can't drop below the floor
 const NUDGE_DISTANCE = 24; // inches a double-click moves you forward
 const NUDGE_SPEED = 120; // inches per second while gliding
 const MAX_PITCH = THREE.MathUtils.degToRad(80);
 const STICK_RADIUS = 48; // pixels the knob can travel from center
 
 export class WalkControls {
-  constructor(camera, element, { bounds, eyeHeight }) {
+  constructor(camera, element, { canBeAt, eyeHeight }) {
     this.camera = camera;
     this.element = element;
-    this.bounds = bounds; // { minX, maxX, minZ, maxZ }
+    this.canBeAt = canBeAt; // (x, y, z) => true where the camera may be
     this.eyeHeight = eyeHeight;
 
     this.yaw = 0;
@@ -54,16 +53,24 @@ export class WalkControls {
     this.#buildStick();
   }
 
-  // Footprints you can't walk through: { minX, maxX, minZ, maxZ }.
+  // Footprints you can't walk through: { minX, maxX, minZ, maxZ }, plus an
+  // optional minY and maxY for the heights they block.
   setObstacles(obstacles, margin = 8) {
     this.obstacles = obstacles;
     this.obstacleMargin = margin;
   }
 
-  #blocked(x, z) {
+  #blocked(x, y, z) {
+    if (!this.canBeAt(x, y, z)) return true;
     const m = this.obstacleMargin ?? 0;
     return (this.obstacles ?? []).some(
-      (o) => x > o.minX - m && x < o.maxX + m && z > o.minZ - m && z < o.maxZ + m,
+      (o) =>
+        x > o.minX - m &&
+        x < o.maxX + m &&
+        z > o.minZ - m &&
+        z < o.maxZ + m &&
+        y >= (o.minY ?? -Infinity) &&
+        y <= (o.maxY ?? Infinity),
     );
   }
 
@@ -275,20 +282,18 @@ export class WalkControls {
     const cos = Math.cos(this.yaw);
     const step = WALK_SPEED * dt;
     const pos = this.camera.position;
-    const b = this.bounds;
 
     // Move one axis at a time, so you slide along an obstacle instead of
     // sticking to it.
     const glide = Math.sign(this.nudge) * Math.min(Math.abs(this.nudge), NUDGE_SPEED * dt);
     this.nudge -= glide;
 
-    const nextX = THREE.MathUtils.clamp(pos.x + (-sin * forward + cos * right) * step - sin * glide, b.minX, b.maxX);
-    if (!this.#blocked(nextX, pos.z)) pos.x = nextX;
-    const nextZ = THREE.MathUtils.clamp(pos.z + (-cos * forward - sin * right) * step - cos * glide, b.minZ, b.maxZ);
-    if (!this.#blocked(pos.x, nextZ)) pos.z = nextZ;
-    if (m.up) pos.y += step;
-    if (m.down) pos.y -= step;
-    pos.y = THREE.MathUtils.clamp(pos.y, MIN_CAMERA_Y, b.maxY ?? Infinity);
+    const nextX = pos.x + (-sin * forward + cos * right) * step - sin * glide;
+    if (!this.#blocked(nextX, pos.y, pos.z)) pos.x = nextX;
+    const nextZ = pos.z + (-cos * forward - sin * right) * step - cos * glide;
+    if (!this.#blocked(pos.x, pos.y, nextZ)) pos.z = nextZ;
+    const nextY = pos.y + ((m.up ? 1 : 0) - (m.down ? 1 : 0)) * step;
+    if (!this.#blocked(pos.x, nextY, pos.z)) pos.y = nextY;
 
     this.camera.rotation.set(this.pitch, this.yaw, 0);
   }

@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { ROOM, WINDOWS } from './dimensions.js';
 import { buildBooth, buildLights } from './booth.js';
 import { WalkControls } from './walk-controls.js';
+import { buildFlySpace } from './fly-space.js';
 import { BARCO, buildBarco, placeBarco } from './equipment/barco.js';
 import { buildStand } from './equipment/stand.js';
 import {
@@ -49,19 +50,16 @@ const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerH
 
 const controls = new WalkControls(camera, renderer.domElement, {
   eyeHeight: EYE_HEIGHT,
-  bounds: {
-    minX: WALL_MARGIN,
-    maxX: ROOM.width - WALL_MARGIN,
-    minZ: WALL_MARGIN,
-    maxZ: ROOM.depth - WALL_MARGIN,
-    maxY: ROOM.height - CEILING_MARGIN,
-  },
+  // Walls are solid, but you can fly out through any window or the door.
+  canBeAt: buildFlySpace({ wallMargin: WALL_MARGIN, ceilingMargin: CEILING_MARGIN }),
 });
+// Everything in the booth blocks you from floor to ceiling.
+const inBooth = { minY: 0, maxY: ROOM.height };
 controls.setObstacles([
-  { ...barcoFootprint, maxZ: Math.max(barcoFootprint.maxZ, standFootprint.maxZ) },
-  standFootprint,
-  closetFootprint,
-  tableFootprint,
+  { ...barcoFootprint, maxZ: Math.max(barcoFootprint.maxZ, standFootprint.maxZ), ...inBooth },
+  { ...standFootprint, ...inBooth },
+  { ...closetFootprint, ...inBooth },
+  { ...tableFootprint, ...inBooth },
 ]);
 // Start near the rewind table, facing the windows.
 controls.setPosition(ROOM.width / 2, ROOM.depth - 40);
