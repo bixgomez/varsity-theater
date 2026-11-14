@@ -92,6 +92,41 @@ export class WalkControls {
     );
   }
 
+  // If the camera is inside an obstacle (say one was just shown again around
+  // you), step out to the nearest free spot, searching outward a ring at a
+  // time.  The path out must not cross a wall.  Returns false when nothing
+  // free is close enough, leaving the camera where it was.
+  escapeObstacles(maxDistance = 120) {
+    const pos = this.camera.position;
+    if (!this.#blocked(pos.x, pos.y, pos.z)) return true;
+    for (let r = 1; r <= maxDistance; r += 1) {
+      const steps = Math.max(16, Math.ceil(r * 2));
+      for (let i = 0; i < steps; i += 1) {
+        const a = (i / steps) * Math.PI * 2;
+        const x = pos.x + Math.cos(a) * r;
+        const z = pos.z + Math.sin(a) * r;
+        if (this.#blocked(x, pos.y, z)) continue;
+        if (!this.#clearOfWalls(pos.x, pos.z, x, z, pos.y)) continue;
+        pos.x = x;
+        pos.z = z;
+        this.nudge = 0;
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // True when every point on the straight line between two spots is
+  // allowed by canBeAt, ignoring obstacles.
+  #clearOfWalls(x0, z0, x1, z1, y) {
+    const steps = Math.ceil(Math.hypot(x1 - x0, z1 - z0));
+    for (let i = 0; i <= steps; i += 1) {
+      const t = steps === 0 ? 1 : i / steps;
+      if (!this.canBeAt(x0 + (x1 - x0) * t, y, z0 + (z1 - z0) * t)) return false;
+    }
+    return true;
+  }
+
   setPosition(x, z) {
     this.camera.position.set(x, this.eyeHeight, z);
   }

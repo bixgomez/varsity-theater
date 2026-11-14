@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { ROOM, WINDOWS } from './dimensions.js';
+import { ROOM, WINDOWS, CONTROL_BOX } from './dimensions.js';
 import { buildBooth, buildLights } from './booth.js';
 import { WalkControls } from './walk-controls.js';
 import { buildFlySpace } from './fly-space.js';
@@ -82,13 +82,30 @@ const toggleable = [
     id: 'control-box',
     label: 'Control box',
     objects: [controlBox],
-    obstacles: [], // the control box has never blocked movement
+    // Only as tall as the box itself, so you can still walk over it at eye level.
+    obstacles: [{
+      minX: CONTROL_BOX.x0,
+      maxX: CONTROL_BOX.x1,
+      minZ: 0,
+      maxZ: CONTROL_BOX.baseDepth,
+      minY: CONTROL_BOX.y0,
+      maxY: CONTROL_BOX.y1,
+    }],
   },
 ];
-const setShown = (shown) => {
+const setObstaclesFor = (shown) => {
   controls.setObstacles([...closetObstacles, ...shown.flatMap((item) => item.obstacles)], OBSTACLE_MARGIN);
 };
-setShown(toggleable);
+setObstaclesFor(toggleable);
+
+// Showing a piece while you stand inside it steps you just outside it.  If
+// there's nowhere free nearby, the piece stays hidden.
+const setShown = (shown, previous) => {
+  setObstaclesFor(shown);
+  if (controls.escapeObstacles()) return true;
+  setObstaclesFor(previous);
+  return false;
+};
 
 // Start near the rewind table, facing the windows.
 controls.setPosition(ROOM.width / 2, ROOM.depth - 40);
