@@ -8,10 +8,13 @@
   </head>
   <body>
     <p class="help">
-      <span class="mouse">Drag to look.  W and S to walk forward and back, A and D to slide left and right, left and right arrows to turn.  Q and E for height, Z and C to tilt, X to level.  Pinch the trackpad to walk forward or back; drag two fingers to rise, sink, or slide.</span>
-      <span class="touch">Drag to look.  Use the stick to walk.  Spread or pinch to walk forward or back.  Three fingers to rise, sink, or slide.</span>
+      <span class="mouse">Drag to look.  W and S to walk forward and back, A and D to slide left and right, left and right arrows to turn.  Q and E for height, Z and C to tilt, X to level, H to return home.  Pinch the trackpad to walk forward or back; drag two fingers to rise, sink, or slide.</span>
+      <span class="touch">Drag to look.  Use the stick to walk.  Tap Return home to start over.  Spread or pinch to walk forward or back.  Three fingers to rise, sink, or slide.</span>
     </p>
     <nav id="show" class="show" aria-label="Show and hide">
+      <div class="home">
+        <button class="home-button" type="button">Return home</button>
+      </div>
       <h2>Show</h2>
       <ul class="show-list"></ul>
     </nav>
@@ -28,6 +31,7 @@
         <li><kbd>E</kbd> <kbd>Q</kbd> or Shift + <kbd>&uarr;</kbd> <kbd>&darr;</kbd>: rise and sink</li>
         <li><kbd>Z</kbd> <kbd>C</kbd> or Ctrl/Option + <kbd>&uarr;</kbd> <kbd>&darr;</kbd>: tilt the view up and down</li>
         <li><kbd>X</kbd>: level the view</li>
+        <li><kbd>H</kbd> or the Return home button: glide back to where you started</li>
       </ul>
       <h3>Mouse and trackpad</h3>
       <ul>

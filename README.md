@@ -29,6 +29,7 @@ You walk through the booth at eye level, as if you were standing in it.  It work
 
 - **Computer:** drag to look; use the keyboard to move (see below; the on-screen hint lists the same keys).  On a trackpad, spread two fingers apart to walk forward and pinch them together to walk back.  Drag two fingers up or down to rise or sink, and left or right to slide sideways.
 - **Help:** the ? button in the top right opens a panel with every control and a short overview of the booth.  Esc or the close button hides it.
+- **Return home:** the Return home button at the top of the side panel, or `H`, glides you back to where you started over about 2.5 seconds.
 - **Phone:** drag to look; use the on-screen thumbstick to walk.  Spread two fingers apart to walk forward and pinch them together to walk back.  Drag with three fingers to move up and down or slide sideways.
 
 | Key | Action |
@@ -46,6 +47,7 @@ You walk through the booth at eye level, as if you were standing in it.  It work
 | `Z` or Ctrl/Option + Up arrow | Tilt the view up |
 | `C` or Ctrl/Option + Down arrow | Tilt the view down |
 | `X` | Smoothly level the view |
+| `H` | Return home (glide back to the start view) |
 
 Moving up and down changes your eye height; inside the booth you can't go below the floor or up through the ceiling.
 

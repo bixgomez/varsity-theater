@@ -202,6 +202,32 @@ canvas {
   text-decoration: line-through;
 }
 
+/* Return home gets its own section at the top of the panel, set off from
+   the Show toggles by a rule and styled as an action, not a toggle. */
+.home {
+  margin: 0 0 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgb(255 255 255 / 0.25);
+}
+
+.home-button {
+  display: block;
+  width: 100%;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 999px;
+  background: #d9a441;
+  color: #1a1a1a;
+  font: inherit;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+}
+
+.home-button:hover {
+  background: #e6b65a;
+}
+
 /* The help panel opens on top of the toggles. */
 .info {
   z-index: 1;
