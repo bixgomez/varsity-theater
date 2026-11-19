@@ -73,7 +73,7 @@ The plan is to put the digital projector in the center, with a 35mm projector on
 
 ### Hallway (east of the booth, on the booth door's side)
 
-In the model as the "Hallway and outside floor (placeholder)" toggle (light gray walls, amber ceiling).
+In the model as the "Hallway and outside floor (placeholder)" toggle (light gray walls, soft white ceiling).
 
 - Interior walls are 4 thick.  Richard measured this; it is not a guess.
 - The hallway is as tall as the booth, 87.

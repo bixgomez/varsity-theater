@@ -4,19 +4,18 @@ import { hardwoodMaterial } from './hardwood.js';
 
 // Placeholder pieces outside the booth, from Richard's Nov 18 field notes.
 // Everything here is rough and unconfirmed.  The hallway walls are a light
-// gray (the real ones are painted white); the ceiling stays amber so it stands
-// out from the measured booth.  The builder returns the objects and
+// gray and the ceiling a soft white (the real walls are painted white).  The
+// builder returns the objects and
 // their collision boxes, { minX, maxX, minY, maxY, minZ, maxZ }.
 
-const PLACEHOLDER_COLOR = 0xe0a64a; // amber, so it's clearly not a real finish
 const WALL_COLOR = 0xc9cacc; // light neutral gray, a little cooler and darker than the booth's off-white
+const CEILING_COLOR = 0xeae8e3; // soft white, a touch lighter than the booth's off-white
 // There are no lights out here, so faces that point the same way get the same
 // shade and their corners would blur together.  A thin darker line along every
 // corner keeps them visible, without changing the lighting in the booth.
-const EDGE_COLOR = 0x5a3a0a; // dark brown, for the amber pieces
-const WALL_EDGE_COLOR = 0x6b6d70; // darker gray, for the gray walls
+const EDGE_COLOR = 0x6b6d70; // darker gray
 
-function placeholderMaterial(color = PLACEHOLDER_COLOR) {
+function placeholderMaterial(color) {
   return new THREE.MeshStandardMaterial({
     color,
     roughness: 0.9,
@@ -30,9 +29,9 @@ function placeholderMaterial(color = PLACEHOLDER_COLOR) {
 
 // A mesh with a line along its corners.  Lines are drawn only where two faces
 // meet at an angle, so each piece is one continuous surface with no seams.
-function placeholder(geometry, material = placeholderMaterial(), edgeColor = EDGE_COLOR) {
+function placeholder(geometry, material) {
   const mesh = new THREE.Mesh(geometry, material);
-  mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(geometry), new THREE.LineBasicMaterial({ color: edgeColor })));
+  mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(geometry), new THREE.LineBasicMaterial({ color: EDGE_COLOR })));
   return mesh;
 }
 
@@ -79,11 +78,11 @@ function wallWithDoorway(xMin, xMax, zMin, zMax, top, doorMinX, doorMaxX, doorTo
   shape.closePath();
   const geometry = new THREE.ExtrudeGeometry(shape, { depth: zMax - zMin, bevelEnabled: false });
   geometry.translate(0, 0, zMin);
-  return placeholder(geometry, placeholderMaterial(WALL_COLOR), WALL_EDGE_COLOR);
+  return placeholder(geometry, placeholderMaterial(WALL_COLOR));
 }
 
 // The hallway east of the booth and the floor and ceiling around the booth (the
-// floor is pretend hardwood; the ceiling is amber; the walls are light gray): the
+// floor is pretend hardwood; the ceiling is soft white; the walls are light gray): the
 // far wall across from the booth, and the little office jutting out at the far
 // wall's north end, with an opening into the office.  Both ends of the hallway
 // are left open.  The floor and ceiling run 48 in past the booth's north,
@@ -137,7 +136,7 @@ export function buildHallway() {
   hallway.name = 'hallway-placeholder';
   hallway.add(
     slab(slabOuter, boothHole, -WALL.slab, 0, floorMaterial), // floor
-    slab(slabOuter, boothHole, top, top + WALL.slab), // ceiling
+    slab(slabOuter, boothHole, top, top + WALL.slab, placeholderMaterial(CEILING_COLOR)), // ceiling
     wallWithDoorway(minX, maxX, farMinZ, farMaxZ, top, openMinX, openMaxX, H.openingHeight), // the far wall
     wallWithDoorway(jutMinX, maxX, jutMinZ, farMinZ, top, openMinX, openMaxX, H.openingHeight), // the office jut
   );
