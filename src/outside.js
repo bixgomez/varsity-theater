@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { ROOM, WALL, HALLWAY } from './dimensions.js';
+import { hardwoodMaterial } from './hardwood.js';
 
 // Placeholder pieces outside the booth, from Richard's Nov 18 field notes.
 // Everything here is rough and unconfirmed, so it's drawn in solid amber to
@@ -26,8 +27,8 @@ function placeholderMaterial() {
 
 // A mesh with a line along its corners.  Lines are drawn only where two faces
 // meet at an angle, so each piece is one continuous surface with no seams.
-function placeholder(geometry) {
-  const mesh = new THREE.Mesh(geometry, placeholderMaterial());
+function placeholder(geometry, material = placeholderMaterial()) {
+  const mesh = new THREE.Mesh(geometry, material);
   mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(geometry), new THREE.LineBasicMaterial({ color: EDGE_COLOR })));
   return mesh;
 }
@@ -38,7 +39,7 @@ function box(minX, maxX, minY, maxY, minZ, maxZ) {
 
 // A flat slab seen from above: the rectangle `outer` with the rectangle `hole`
 // cut out of it, from height y0 up to y1.  Each is { minX, maxX, minZ, maxZ }.
-function slab(outer, hole, y0, y1) {
+function slab(outer, hole, y0, y1, material) {
   const shape = new THREE.Shape();
   shape.moveTo(outer.minX, outer.minZ);
   shape.lineTo(outer.maxX, outer.minZ);
@@ -56,7 +57,7 @@ function slab(outer, hole, y0, y1) {
   const geometry = new THREE.ExtrudeGeometry(shape, { depth: y1 - y0, bevelEnabled: false });
   geometry.rotateX(Math.PI / 2); // the shape's second axis becomes z; the extrusion hangs down from y = 0
   geometry.translate(0, y1, 0);
-  return placeholder(geometry);
+  return placeholder(geometry, material);
 }
 
 // A wall from the floor up to `top`, from xMin to xMax and zMin to zMax, with a
@@ -77,7 +78,8 @@ function wallWithDoorway(xMin, xMax, zMin, zMax, top, doorMinX, doorMaxX, doorTo
   return placeholder(geometry);
 }
 
-// The hallway east of the booth and the floor and ceiling around the booth: the
+// The hallway east of the booth and the floor and ceiling around the booth (the
+// floor is pretend hardwood; the ceiling is amber): the
 // far wall across from the booth, and the little office jutting out at the far
 // wall's north end, with an opening into the office.  Both ends of the hallway
 // are left open.  The floor and ceiling run 48 in past the booth's north,
@@ -120,10 +122,17 @@ export function buildHallway() {
     box(openMinX, openMaxX, H.openingHeight, top, zMin, zMax),
   ];
 
+  // The floor is pretend hardwood, like the booth's; it gets the same nudge as
+  // the amber pieces so the edge lines don't flicker.
+  const floorMaterial = hardwoodMaterial();
+  floorMaterial.polygonOffset = true;
+  floorMaterial.polygonOffsetFactor = 1;
+  floorMaterial.polygonOffsetUnits = 1;
+
   const hallway = new THREE.Group();
   hallway.name = 'hallway-placeholder';
   hallway.add(
-    slab(slabOuter, boothHole, -WALL.slab, 0), // floor
+    slab(slabOuter, boothHole, -WALL.slab, 0, floorMaterial), // floor
     slab(slabOuter, boothHole, top, top + WALL.slab), // ceiling
     wallWithDoorway(minX, maxX, farMinZ, farMaxZ, top, openMinX, openMaxX, H.openingHeight), // the far wall
     wallWithDoorway(jutMinX, maxX, jutMinZ, farMinZ, top, openMinX, openMaxX, H.openingHeight), // the office jut

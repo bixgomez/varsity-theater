@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { ROOM, WALL, WINDOWS, DOOR } from './dimensions.js';
+import { hardwoodMaterial, setWorldFloorUVs } from './hardwood.js';
 
 // Placeholder colors, roughly matched to the photos.  Step 4 refines these.
 const COLORS = {
@@ -7,7 +8,7 @@ const COLORS = {
   eastWall: 0x4f6b5c,
   sideWall: 0xd9d4c5, // off-white
   ceiling: 0xd9d4c5,
-  floor: 0x3a403c,
+  floor: 0x3a403c, // the old floor color; the floor is now pretend hardwood (see hardwood.js)
 };
 
 function material(color) {
@@ -71,10 +72,11 @@ function buildSideWall(name, x) {
 }
 
 // Floor and ceiling slabs, flush with the outside faces of the walls.
-function buildSlab(name, y, color) {
+function buildSlab(name, y, color, wood = false) {
   const geometry = new THREE.BoxGeometry(ROOM.width + 2 * WALL.side, WALL.slab, ROOM.depth + WALL.west + WALL.east);
-  const slab = new THREE.Mesh(geometry, material(color));
+  const slab = new THREE.Mesh(geometry, wood ? hardwoodMaterial() : material(color));
   slab.position.set(ROOM.width / 2, y, (ROOM.depth + WALL.east - WALL.west) / 2);
+  if (wood) setWorldFloorUVs(geometry, slab.position);
   slab.name = name;
   return slab;
 }
@@ -87,7 +89,7 @@ export function buildBooth() {
     buildEastWall(),
     buildSideWall('south-wall', -WALL.side / 2),
     buildSideWall('north-wall', ROOM.width + WALL.side / 2),
-    buildSlab('floor', -WALL.slab / 2, COLORS.floor),
+    buildSlab('floor', -WALL.slab / 2, COLORS.floor, true),
     buildSlab('ceiling', ROOM.height + WALL.slab / 2, COLORS.ceiling),
   );
   return booth;

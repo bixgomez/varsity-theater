@@ -78,7 +78,7 @@ The goal is to decide where the Barco and the two 35mm projectors go.  The curre
 
 ## Guesses
 
-Some numbers are placeholders until they're measured: wall, floor, and ceiling thickness, eye height, the Barco's lens position and lens size, the stand, the control box width, and the 35mm projectors' sizes.  `AGENTS.md` has the full list.
+Some numbers are placeholders until they're measured: wall, floor, and ceiling thickness, eye height, the Barco's lens position and lens size, the stand, the floor's hardwood look (pretend boards, 3 in wide, running north-south), the control box width, and the 35mm projectors' sizes.  `AGENTS.md` has the full list.
 
 ## For AI assistants
 
