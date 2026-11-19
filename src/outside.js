@@ -40,7 +40,8 @@ function block(minX, maxX, minY, maxY, minZ, maxZ) {
 // The hallway east of the booth: a floor and ceiling, the far wall across from
 // the booth, and the little office jutting out at the far wall's north end,
 // with an opening into the office.  Both ends of the hallway are left open;
-// the floor runs 48 in past the booth's north, south, and west sides for now.
+// the floor and ceiling run 48 in past the booth's north, south, and west sides
+// for now.
 export function buildHallway() {
   const H = HALLWAY;
   const minX = 0;
@@ -61,25 +62,27 @@ export function buildHallway() {
     block(openMinX, openMaxX, H.openingHeight, top, zMin, zMax),
   ];
 
-  // The floor outside the booth: the hallway floor, running past both ends of
-  // the booth, plus strips along the booth's north, south, and west sides.  The
-  // booth's own floor slab covers the middle, so the strips go around it.
-  const outsideFloor = (floorMinX, floorMaxX, floorNearZ, floorFarZ) => {
+  // A flat slab outside the booth, used for both the floor and the ceiling: the
+  // hallway part, running past both ends of the booth, plus strips along the
+  // booth's north, south, and west sides.  The booth's own floor and ceiling
+  // slabs cover the middle, so the strips go around it.
+  const outsideSlab = (y0, y1) => {
+    const slabMinX = minX - H.floorOvershoot;
+    const slabMaxX = maxX + H.floorOvershoot;
     const westZ = -WALL.west - H.floorOvershoot;
     const boothMinX = -WALL.side;
     const boothMaxX = ROOM.width + WALL.side;
-    const y0 = -WALL.slab;
     return [
-      block(floorMinX, floorMaxX, y0, 0, floorNearZ, floorFarZ), // the hallway floor
-      block(floorMinX, floorMaxX, y0, 0, westZ, -WALL.west), // west of the booth
-      block(floorMinX, boothMinX, y0, 0, -WALL.west, floorNearZ), // south of the booth
-      block(boothMaxX, floorMaxX, y0, 0, -WALL.west, floorNearZ), // north of the booth
+      block(slabMinX, slabMaxX, y0, y1, nearZ, farMaxZ), // the hallway
+      block(slabMinX, slabMaxX, y0, y1, westZ, -WALL.west), // west of the booth
+      block(slabMinX, boothMinX, y0, y1, -WALL.west, nearZ), // south of the booth
+      block(boothMaxX, slabMaxX, y0, y1, -WALL.west, nearZ), // north of the booth
     ];
   };
 
   const pieces = [
-    ...outsideFloor(minX - H.floorOvershoot, maxX + H.floorOvershoot, nearZ, farMaxZ),
-    block(minX, maxX, top, top + WALL.slab, nearZ, farMaxZ), // ceiling
+    ...outsideSlab(-WALL.slab, 0), // floor
+    ...outsideSlab(top, top + WALL.slab), // ceiling
     ...withOpening(farMinZ, farMaxZ, minX), // the far wall
     ...withOpening(jutMinZ, farMinZ, jutMinX), // the office jut
   ];
