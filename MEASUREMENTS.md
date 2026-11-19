@@ -93,7 +93,7 @@ Not modeled yet; the orientation is too uncertain to place.
 1. Splay: where it starts and stops, the angle, and whether it is real or just how it looks.
 2. Which surface the 82 mark is measured from.
 3. Which wall the 105 and the 10 ft are measured from, and which direction the 10 ft runs.
-4. Hallway width and exact position relative to the booth walls (the booth door is in the east wall, but the notes assumed the hallway is west of the booth; not confirmed).
+4. Hallway width and exact position along the booth.  Settled by Richard on Nov 18: the hallway is east of the booth, on the booth door's side (the notes had assumed west).
 5. Which wall the 32 door's 3 in offset is measured from, and which way the door swings.
 6. Door heights for both balcony doors.
 7. Whether the 40 to the north-end wall is measured from the booth's inner or outer north face.
