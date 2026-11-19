@@ -3,13 +3,13 @@ import { ROOM, WALL, HALLWAY } from './dimensions.js';
 
 // Placeholder pieces outside the booth, from Richard's Nov 18 field notes.
 // Everything here is rough and unconfirmed, so it's drawn in solid amber to
-// stand out from the measured booth.  Each builder returns the
-// object and its collision boxes, { minX, maxX, minY, maxY, minZ, maxZ }.
+// stand out from the measured booth.  The builder returns the objects and
+// their collision boxes, { minX, maxX, minY, maxY, minZ, maxZ }.
 
 const PLACEHOLDER_COLOR = 0xe0a64a; // amber, so it's clearly not a real finish
 // There are no lights out here, so faces that point the same way get the same
 // shade and their corners would blur together.  A thin darker line along every
-// edge keeps the corners visible, without changing the lighting in the booth.
+// corner keeps them visible, without changing the lighting in the booth.
 const EDGE_COLOR = 0x5a3a0a;
 
 function placeholderMaterial() {
@@ -24,24 +24,64 @@ function placeholderMaterial() {
   });
 }
 
-// A box given by its edges, with its matching collision box.
-function block(minX, maxX, minY, maxY, minZ, maxZ) {
-  const mesh = new THREE.Mesh(
-    new THREE.BoxGeometry(maxX - minX, maxY - minY, maxZ - minZ),
-    placeholderMaterial(),
-  );
-  mesh.position.set((minX + maxX) / 2, (minY + maxY) / 2, (minZ + maxZ) / 2);
-  mesh.add(
-    new THREE.LineSegments(new THREE.EdgesGeometry(mesh.geometry), new THREE.LineBasicMaterial({ color: EDGE_COLOR })),
-  );
-  return { mesh, obstacle: { minX, maxX, minY, maxY, minZ, maxZ } };
+// A mesh with a line along its corners.  Lines are drawn only where two faces
+// meet at an angle, so each piece is one continuous surface with no seams.
+function placeholder(geometry) {
+  const mesh = new THREE.Mesh(geometry, placeholderMaterial());
+  mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(geometry), new THREE.LineBasicMaterial({ color: EDGE_COLOR })));
+  return mesh;
 }
 
-// The hallway east of the booth: a floor and ceiling, the far wall across from
-// the booth, and the little office jutting out at the far wall's north end,
-// with an opening into the office.  Both ends of the hallway are left open;
-// the floor and ceiling run 48 in past the booth's north, south, and west sides
-// for now.
+function box(minX, maxX, minY, maxY, minZ, maxZ) {
+  return { minX, maxX, minY, maxY, minZ, maxZ };
+}
+
+// A flat slab seen from above: the rectangle `outer` with the rectangle `hole`
+// cut out of it, from height y0 up to y1.  Each is { minX, maxX, minZ, maxZ }.
+function slab(outer, hole, y0, y1) {
+  const shape = new THREE.Shape();
+  shape.moveTo(outer.minX, outer.minZ);
+  shape.lineTo(outer.maxX, outer.minZ);
+  shape.lineTo(outer.maxX, outer.maxZ);
+  shape.lineTo(outer.minX, outer.maxZ);
+  shape.closePath();
+  const cut = new THREE.Path();
+  cut.moveTo(hole.minX, hole.minZ);
+  cut.lineTo(hole.maxX, hole.minZ);
+  cut.lineTo(hole.maxX, hole.maxZ);
+  cut.lineTo(hole.minX, hole.maxZ);
+  cut.closePath();
+  shape.holes.push(cut);
+
+  const geometry = new THREE.ExtrudeGeometry(shape, { depth: y1 - y0, bevelEnabled: false });
+  geometry.rotateX(Math.PI / 2); // the shape's second axis becomes z; the extrusion hangs down from y = 0
+  geometry.translate(0, y1, 0);
+  return placeholder(geometry);
+}
+
+// A wall from the floor up to `top`, from xMin to xMax and zMin to zMax, with a
+// doorway notched out of its bottom between doorMinX and doorMaxX.
+function wallWithDoorway(xMin, xMax, zMin, zMax, top, doorMinX, doorMaxX, doorTop) {
+  const shape = new THREE.Shape();
+  shape.moveTo(xMin, 0);
+  shape.lineTo(doorMinX, 0);
+  shape.lineTo(doorMinX, doorTop);
+  shape.lineTo(doorMaxX, doorTop);
+  shape.lineTo(doorMaxX, 0);
+  shape.lineTo(xMax, 0);
+  shape.lineTo(xMax, top);
+  shape.lineTo(xMin, top);
+  shape.closePath();
+  const geometry = new THREE.ExtrudeGeometry(shape, { depth: zMax - zMin, bevelEnabled: false });
+  geometry.translate(0, 0, zMin);
+  return placeholder(geometry);
+}
+
+// The hallway east of the booth and the floor and ceiling around the booth: the
+// far wall across from the booth, and the little office jutting out at the far
+// wall's north end, with an opening into the office.  Both ends of the hallway
+// are left open.  The floor and ceiling run 48 in past the booth's north,
+// south, and west sides for now.
 export function buildHallway() {
   const H = HALLWAY;
   const minX = 0;
@@ -55,40 +95,45 @@ export function buildHallway() {
   const openMinX = openMaxX - H.openingWidth;
   const top = ROOM.height;
 
-  // A wall piece with the office opening cut out of it.
-  const withOpening = (zMin, zMax, xMin) => [
-    block(xMin, openMinX, 0, top, zMin, zMax),
-    block(openMaxX, maxX, 0, top, zMin, zMax),
-    block(openMinX, openMaxX, H.openingHeight, top, zMin, zMax),
+  // The floor and ceiling run past the booth on three sides, and out to the far
+  // wall.  The booth's own floor and ceiling slabs fill the hole in the middle.
+  const slabOuter = {
+    minX: minX - H.floorOvershoot,
+    maxX: maxX + H.floorOvershoot,
+    minZ: -WALL.west - H.floorOvershoot,
+    maxZ: farMaxZ,
+  };
+  const boothHole = { minX: -WALL.side, maxX: ROOM.width + WALL.side, minZ: -WALL.west, maxZ: nearZ };
+
+  // Collision boxes for a slab: the hallway, west, south, and north parts.
+  const slabBoxes = (y0, y1) => [
+    box(slabOuter.minX, slabOuter.maxX, y0, y1, nearZ, farMaxZ),
+    box(slabOuter.minX, slabOuter.maxX, y0, y1, slabOuter.minZ, boothHole.minZ),
+    box(slabOuter.minX, boothHole.minX, y0, y1, boothHole.minZ, nearZ),
+    box(boothHole.maxX, slabOuter.maxX, y0, y1, boothHole.minZ, nearZ),
   ];
 
-  // A flat slab outside the booth, used for both the floor and the ceiling: the
-  // hallway part, running past both ends of the booth, plus strips along the
-  // booth's north, south, and west sides.  The booth's own floor and ceiling
-  // slabs cover the middle, so the strips go around it.
-  const outsideSlab = (y0, y1) => {
-    const slabMinX = minX - H.floorOvershoot;
-    const slabMaxX = maxX + H.floorOvershoot;
-    const westZ = -WALL.west - H.floorOvershoot;
-    const boothMinX = -WALL.side;
-    const boothMaxX = ROOM.width + WALL.side;
-    return [
-      block(slabMinX, slabMaxX, y0, y1, nearZ, farMaxZ), // the hallway
-      block(slabMinX, slabMaxX, y0, y1, westZ, -WALL.west), // west of the booth
-      block(slabMinX, boothMinX, y0, y1, -WALL.west, nearZ), // south of the booth
-      block(boothMaxX, slabMaxX, y0, y1, -WALL.west, nearZ), // north of the booth
-    ];
-  };
-
-  const pieces = [
-    ...outsideSlab(-WALL.slab, 0), // floor
-    ...outsideSlab(top, top + WALL.slab), // ceiling
-    ...withOpening(farMinZ, farMaxZ, minX), // the far wall
-    ...withOpening(jutMinZ, farMinZ, jutMinX), // the office jut
+  // Collision boxes for a wall with the office opening: both sides and the lintel.
+  const wallBoxes = (zMin, zMax, xMin) => [
+    box(xMin, openMinX, 0, top, zMin, zMax),
+    box(openMaxX, maxX, 0, top, zMin, zMax),
+    box(openMinX, openMaxX, H.openingHeight, top, zMin, zMax),
   ];
 
   const hallway = new THREE.Group();
   hallway.name = 'hallway-placeholder';
-  hallway.add(...pieces.map((p) => p.mesh));
-  return { hallway, obstacles: pieces.map((p) => p.obstacle) };
+  hallway.add(
+    slab(slabOuter, boothHole, -WALL.slab, 0), // floor
+    slab(slabOuter, boothHole, top, top + WALL.slab), // ceiling
+    wallWithDoorway(minX, maxX, farMinZ, farMaxZ, top, openMinX, openMaxX, H.openingHeight), // the far wall
+    wallWithDoorway(jutMinX, maxX, jutMinZ, farMinZ, top, openMinX, openMaxX, H.openingHeight), // the office jut
+  );
+
+  const obstacles = [
+    ...slabBoxes(-WALL.slab, 0),
+    ...slabBoxes(top, top + WALL.slab),
+    ...wallBoxes(farMinZ, farMaxZ, minX),
+    ...wallBoxes(jutMinZ, farMinZ, jutMinX),
+  ];
+  return { hallway, obstacles };
 }
