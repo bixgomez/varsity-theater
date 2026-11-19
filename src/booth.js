@@ -6,6 +6,7 @@ import { hardwoodMaterial, setWorldFloorUVs } from './hardwood.js';
 // The booth ceiling and the hallway ceiling are one continuous ceiling, so
 // they share this color (outside.js imports it).
 export const CEILING_COLOR = 0xeae8e3; // soft white
+export const HALL_WALL_COLOR = 0xc9cacc; // hallway and booth exterior
 
 const COLORS = {
   westWall: 0x4f6b5c, // booth green
@@ -60,6 +61,14 @@ function buildEastWall() {
   shape.lineTo(0, ROOM.height);
   shape.closePath();
   const wall = extrudedWall(shape, WALL.east, COLORS.eastWall);
+  // The extrusion has equal inner and outer caps followed by the doorway edges.
+  const geometry = wall.geometry;
+  const [caps, edges] = geometry.groups;
+  geometry.clearGroups();
+  geometry.addGroup(0, caps.count / 2, 0);
+  geometry.addGroup(caps.count / 2, caps.count / 2, 1);
+  geometry.addGroup(edges.start, edges.count, 0);
+  wall.material = [wall.material, material(HALL_WALL_COLOR)];
   wall.position.z = ROOM.depth; // inner face at z = depth
   wall.name = 'east-wall';
   return wall;
@@ -70,8 +79,11 @@ function buildSideWall(name, x) {
   const length = ROOM.depth + WALL.west + WALL.east;
   const geometry = new THREE.BoxGeometry(WALL.side, ROOM.height, length);
   const side = material(COLORS.sideWall);
-  // BoxGeometry's last material covers the west-facing (-z) end.
-  const wall = new THREE.Mesh(geometry, [side, side, side, side, side, material(COLORS.westWall)]);
+  const exterior = material(HALL_WALL_COLOR);
+  // Box faces run +x, -x, +y, -y, +z (east), -z (west).
+  const faces = [side, side, side, side, exterior, material(COLORS.westWall)];
+  faces[name === 'north-wall' ? 0 : 1] = exterior;
+  const wall = new THREE.Mesh(geometry, faces);
   wall.position.set(x, ROOM.height / 2, (ROOM.depth + WALL.east - WALL.west) / 2);
   wall.name = name;
   return wall;

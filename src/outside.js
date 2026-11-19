@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { ROOM, WALL, HALLWAY } from './dimensions.js';
 import { hardwoodMaterial } from './hardwood.js';
-import { CEILING_COLOR } from './booth.js';
+import { CEILING_COLOR, HALL_WALL_COLOR } from './booth.js';
 
 // Placeholder pieces outside the booth, from Richard's Nov 18 field notes.
 // Everything here is rough and unconfirmed.  The hallway walls are a light
@@ -9,7 +9,6 @@ import { CEILING_COLOR } from './booth.js';
 // white as the booth's ceiling.  The builder returns the objects and their
 // collision boxes, { minX, maxX, minY, maxY, minZ, maxZ }.
 
-const WALL_COLOR = 0xc9cacc; // light neutral gray, a little cooler and darker than the booth's off-white
 // There are no lights out here, so faces that point the same way get the same
 // shade and their corners would blur together.  A thin darker line along every
 // corner keeps them visible, without changing the lighting in the booth.
@@ -82,7 +81,7 @@ function wallWithDoorway(xMin, xMax, zMin, zMax, top, doorMinX, doorMaxX, doorTo
   shape.closePath();
   const geometry = new THREE.ExtrudeGeometry(shape, { depth: zMax - zMin, bevelEnabled: false });
   geometry.translate(0, 0, zMin);
-  return placeholder(geometry, placeholderMaterial(WALL_COLOR));
+  return placeholder(geometry, placeholderMaterial(HALL_WALL_COLOR));
 }
 
 // The hallway east of the booth and the floor and ceiling around the booth (the
