@@ -47,6 +47,13 @@ This is Richard's Three.js model of the projection booth at the Grand Illusion C
 2. Add the 35mm projectors, as labeled placeholders if he still doesn't have their sizes.
 3. Check the placeholder hallway on site with Richard, then rough in the balcony after he answers the open questions in `MEASUREMENTS.md`.  Then the finishing touches (see the plan in `README.md`).
 
+## Publishing
+
+Richard wants every change published, so after each commit pushed to `main`, do both of these:
+
+1. **The public site** (https://bixgomez.github.io/varsity-theater/, served from the `gh-pages` branch; nothing updates it automatically).  Run `npm run build`, check out `gh-pages` in a separate worktree, replace its contents with the new `dist/` files, commit as "Publish build from <short sha of main>", and push the `gh-pages` branch.
+2. **The phone preview** (see the next section).
+
 ## The phone preview
 
 Richard views the model on his phone through a published page (a Claude artifact; slug `daacb2e0-8822-450f-995a-6984a080c724`).  It is not part of the build.  The artifact host only allows a few outside script sources and can't use npm, so the preview is a copy of the source that loads Three.js from a CDN.  To rebuild it:
