@@ -119,7 +119,7 @@ const toggleable = [
   },
   {
     id: 'hallway',
-    label: 'Hallway (placeholder)',
+    label: 'Hallway and outside floor (placeholder)',
     objects: [hallway],
     obstacles: hallwayObstacles,
   },
