@@ -50,7 +50,7 @@ You walk through the booth at eye level, as if you were standing in it.  It work
 | `X` | Smoothly level the view |
 | `H` | Return home (glide back to the start view) |
 
-Moving up and down changes your eye height; you always stay at least 3 in above the floor, inside the booth and over the outside floor, and inside the booth you can't go up through the ceiling.
+Moving up and down changes your eye height; you can never go lower than 3 in above the floor level, anywhere in the scene, and inside the booth you can't go up through the ceiling.
 
 You can't walk through the walls, the projector, the electrical closet, or the rewind table.
 

@@ -23,7 +23,8 @@ function contains(b, x, y, z) {
 
 // wallMargin: how close the camera may get to a wall, inside or out.
 // ceilingMargin: how close it may get to the ceiling, inside.
-// floorMargin: how close it may get to the floor, inside and in the door.
+// floorMargin: the lowest the camera may go anywhere in the scene, measured up
+//   from the booth floor (y = 0).
 export function buildFlySpace({ wallMargin, ceilingMargin, floorMargin = 0 }) {
   const m = wallMargin;
   const t = OPENING_MARGIN;
@@ -42,14 +43,15 @@ export function buildFlySpace({ wallMargin, ceilingMargin, floorMargin = 0 }) {
   const nearDrop = grow(box(-WALL.side, ROOM.width + WALL.side, -WEST_DROP, 0, -WALL.west, 0), m);
   const outer = grow(shell, OUTER_LIMIT);
 
-  const inside = box(m, ROOM.width - m, floorMargin, ROOM.height - ceilingMargin, m, ROOM.depth - m);
+  const inside = box(m, ROOM.width - m, 0, ROOM.height - ceilingMargin, m, ROOM.depth - m);
 
   // Each opening is a short tunnel through its wall, long enough to join the
   // inside space to the outside space.
   const openings = WINDOWS.map((w) => box(w.x0 + t, w.x1 - t, w.y0 + t, w.y1 - t, shell.minZ - m, m));
-  openings.push(box(DOOR.x0 + t, DOOR.x1 - t, floorMargin, DOOR.height - t, ROOM.depth - m, shell.maxZ + m));
+  openings.push(box(DOOR.x0 + t, DOOR.x1 - t, 0, DOOR.height - t, ROOM.depth - m, shell.maxZ + m));
 
   return function canBeAt(x, y, z) {
+    if (y < floorMargin) return false;
     if (contains(inside, x, y, z)) return true;
     if (openings.some((o) => contains(o, x, y, z))) return true;
     return contains(outer, x, y, z) && !contains(nearShell, x, y, z) && !contains(nearDrop, x, y, z);

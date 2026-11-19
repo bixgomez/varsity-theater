@@ -77,7 +77,7 @@ const controlBox = buildControlBox();
 const { shelves: eastShelves, obstacle: shelvesObstacle } = buildEastShelves();
 const eastClock = buildEastClock();
 const { door: eastDoor, obstacle: doorObstacle } = buildOpenDoor();
-const { hallway, obstacles: hallwayObstacles } = buildHallway({ floorMargin: FLOOR_MARGIN });
+const { hallway, obstacles: hallwayObstacles } = buildHallway();
 scene.add(hallway);
 scene.add(closet, rewindTable, buildWestWallConduit(), controlBox, buildCeilingFixtures(), eastShelves, eastClock, eastDoor);
 
