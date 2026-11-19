@@ -67,36 +67,44 @@ From Barco's safety manual (R5910027/14):
 
 The plan is to put the digital projector in the center, with a 35mm projector on each side.  Each 35mm projector needs threading room on its right side.
 
-## Outside the booth (Nov 18 field notes)
+## Outside the booth (Nov 18)
 
-Rough field measurements from Richard's Nov 18 voice calls.  They are not confirmed, and some don't say which wall they're measured from; see the open questions below.
+**Read this first:** these numbers come from Richard's memory, said aloud on Nov 18.  An earlier set of notes written by Grok from his dictation lost most of what he said and invented things (for example "the next booth", which doesn't exist), so those notes are not trusted.  Every number below is an unconfirmed estimate, except the interior wall thickness.  He'll check them with a tape measure when he's back at the theater.
 
-### North end of the booth
+### Hallway (east of the booth, on the booth door's side)
 
-- The next wall past the north end of the booth is 40 away.  The model stops there.
-- That wall is in the model as an amber, see-through placeholder (the "North-end wall" toggle).  It assumes the 40 is measured from the booth's outer north face; the 4 thickness, the full-width span, and floor-to-ceiling height are guesses.
-- A 32 wide door is 3 in from "that wall".  It leads to the other balcony.  The model puts it in the placeholder wall, 3 in from the east end; its 80.5 height is a guess copied from the booth door.
-- 48 to the west of that is the next booth.  Not modeled yet.
+In the model as the amber "Hallway (placeholder)" toggle.
 
-### Balcony side (from the hallway)
+- Interior walls are 4 thick.  Richard measured this; it is not a guess.
+- The hallway is as tall as the booth, 87.
+- The wall across the hall from the booth is as wide as the booth (179) and lined up with it, north to south.  The model runs it from x = 0 to 179, which is a guess.
+- The hallway is about 52 wide, from the booth's east wall to the far wall ("let's call it 52").  The model measures from the booth's outer east face.
+- For the first 48 from the far wall's north end, the wall comes 4 closer to the booth, leaving 48 of hallway there.  This jut is a little office, on the far wall across from the booth.  Richard first said 8, then settled on 4 ("let's say").
+- A 32 wide opening into the office, 6 from the far wall's north edge, 80 tall ("call it 80").  No door leaf yet; he's not sure which way it would swing.
+- Not modeled, so the model assumes nothing about them: the hallway's ends, and what is behind the far wall.  The floor and ceiling slabs (8 thick, copied from the booth) are guesses.
 
-Not modeled yet; the orientation is too uncertain to place.
+### Doorway north of the booth (not modeled)
+
+- Walking north along the booth's wall in the hallway and turning left (west) at the end of that wall, there is a doorway about 40 back.  Its width, and which wall it is in, aren't known.  It may be the doorway out to the balcony.
+- There is no "next booth".  An earlier placeholder wall 40 past the booth's north end has been removed.
+
+### Balcony side (from Grok's notes; unreliable, not modeled)
 
 - A door leads from the hallway to the balcony, going north.
 - The balcony wall is 105 north of that door.
 - At the 82 mark (inside), the balcony splays wider, to about 11.5 ft (138).
 - Main area depth: 10 ft (120).
-- The splay is unresolved.  Richard: "It kind of seems like the whole rest of the theater splays out... I think more research is needed on that.  Maybe it doesn't splay at all.  It certainly looks like it does."
+- Whether the splay is real is unresolved.  Richard: "It kind of seems like the whole rest of the theater splays out... Maybe it doesn't splay at all.  It certainly looks like it does."
 
 ### Open questions
 
-1. Splay: where it starts and stops, the angle, and whether it is real or just how it looks.
-2. Which surface the 82 mark is measured from.
-3. Which wall the 105 and the 10 ft are measured from, and which direction the 10 ft runs.
-4. Hallway width and exact position along the booth.  Settled by Richard on Nov 18: the hallway is east of the booth, on the booth door's side (the notes had assumed west).
-5. Which wall the 32 door's 3 in offset is measured from, and which way the door swings.
-6. Door heights for both balcony doors.
-7. Whether the 40 to the north-end wall is measured from the booth's inner or outer north face.
+1. Confirm the hallway width (52), the jut (4 deep, 48 long), the office opening (32 wide, 80 tall, 6 from the north edge), and whether the far wall lines up exactly with the booth.
+2. Which way the office opening's door swings, and whether there's a door at all.
+3. Where the hallway ends, north and south.
+4. The doorway north of the booth: its width, its height, and which wall it is in.
+5. The balcony items: which wall the 105 and the 120 are measured from, and where the 82 mark is.
+6. Whether the balcony splays, where it starts and stops, and the angle.
+7. Door heights for the balcony doors.
 
 ## Still to measure
 

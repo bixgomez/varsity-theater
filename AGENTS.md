@@ -38,13 +38,14 @@ This is Richard's Three.js model of the projection booth at the Grand Illusion C
 - The stand (a simple steel table; the height is set so the lens lines up with window 4).
 - Colors and lighting (rough matches to Richard's photos).
 - The control box width (24 in, Richard's estimate) and the exhaust box's position along the wall.
+- The hallway east of the booth (52 in wide, the office jut, the opening into the office, floor and ceiling thickness): numbers Richard remembered, to be checked on site.  The 4 in interior wall thickness is measured.
 - The 35mm projectors: Richard doesn't know their makes, models, or sizes yet.  Use clearly labeled placeholder boxes until he has real numbers.  What we'll need for each: footprint, height, where the lens sits, and which side the film is threaded from.
 
 ## Next steps
 
 1. Make the Barco movable, so Richard can slide it between ports and change the stand height.
 2. Add the 35mm projectors, as labeled placeholders if he still doesn't have their sizes.
-3. Rough in the balcony and hallway outside the booth, after Richard answers the open questions in `MEASUREMENTS.md`.  Then the finishing touches (see the plan in `README.md`).
+3. Check the placeholder hallway on site with Richard, then rough in the balcony after he answers the open questions in `MEASUREMENTS.md`.  Then the finishing touches (see the plan in `README.md`).
 
 ## The phone preview
 

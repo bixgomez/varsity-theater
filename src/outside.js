@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { ROOM, WALL, NORTH_END } from './dimensions.js';
+import { ROOM, WALL, HALLWAY } from './dimensions.js';
 
 // Placeholder pieces outside the booth, from Richard's Nov 18 field notes.
 // Everything here is rough and unconfirmed, so it's drawn in a see-through
@@ -30,25 +30,38 @@ function block(minX, maxX, minY, maxY, minZ, maxZ) {
   return { mesh, obstacle: { minX, maxX, minY, maxY, minZ, maxZ } };
 }
 
-// The wall past the north end of the booth, with the 32 in door in it.  It
-// spans the booth's full outside width (west face to east face), floor to
-// ceiling.  The door is a gap near the east end.
-export function buildNorthEndWall() {
-  const minX = ROOM.width + WALL.side + NORTH_END.gap;
-  const maxX = minX + NORTH_END.thickness;
-  const minZ = -WALL.west;
-  const maxZ = ROOM.depth + WALL.east;
-  const doorMaxZ = maxZ - NORTH_END.doorOffset;
-  const doorMinZ = doorMaxZ - NORTH_END.doorWidth;
+// The hallway east of the booth: a floor and ceiling, the far wall across from
+// the booth, and the little office jutting out at the far wall's north end,
+// with an opening into the office.  Both ends of the hallway are left open.
+export function buildHallway() {
+  const H = HALLWAY;
+  const minX = 0;
+  const maxX = ROOM.width;
+  const nearZ = ROOM.depth + WALL.east; // the booth's outer east face
+  const farMinZ = nearZ + H.width; // the far wall's face toward the booth
+  const farMaxZ = farMinZ + H.wallThickness;
+  const jutMinZ = farMinZ - H.jutDepth;
+  const jutMinX = maxX - H.jutLength;
+  const openMaxX = maxX - H.openingFromNorth;
+  const openMinX = openMaxX - H.openingWidth;
+  const top = ROOM.height;
 
-  const pieces = [
-    block(minX, maxX, 0, ROOM.height, minZ, doorMinZ), // west of the door
-    block(minX, maxX, 0, ROOM.height, doorMaxZ, maxZ), // the sliver east of the door
-    block(minX, maxX, NORTH_END.doorHeight, ROOM.height, doorMinZ, doorMaxZ), // above the door
+  // A wall piece with the office opening cut out of it.
+  const withOpening = (zMin, zMax, xMin) => [
+    block(xMin, openMinX, 0, top, zMin, zMax),
+    block(openMaxX, maxX, 0, top, zMin, zMax),
+    block(openMinX, openMaxX, H.openingHeight, top, zMin, zMax),
   ];
 
-  const wall = new THREE.Group();
-  wall.name = 'north-end-wall-placeholder';
-  wall.add(...pieces.map((p) => p.mesh));
-  return { wall, obstacles: pieces.map((p) => p.obstacle) };
+  const pieces = [
+    block(minX, maxX, -WALL.slab, 0, nearZ, farMaxZ), // floor
+    block(minX, maxX, top, top + WALL.slab, nearZ, farMaxZ), // ceiling
+    ...withOpening(farMinZ, farMaxZ, minX), // the far wall
+    ...withOpening(jutMinZ, farMinZ, jutMinX), // the office jut
+  ];
+
+  const hallway = new THREE.Group();
+  hallway.name = 'hallway-placeholder';
+  hallway.add(...pieces.map((p) => p.mesh));
+  return { hallway, obstacles: pieces.map((p) => p.obstacle) };
 }

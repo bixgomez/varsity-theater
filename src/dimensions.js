@@ -88,13 +88,24 @@ export const EAST_SHELVES = {
 // the east wall photo, not measured.
 export const EAST_CLOCK = { size: 10, gap: 8, centerY: 66, depth: 1.5 };
 
-// Placeholder wall past the north end of the booth, from Richard's Nov 18
-// field notes ("the next wall is 40 in away"; "Let's not go beyond that").
-// These are rough and unconfirmed.  See OPEN QUESTIONS in MEASUREMENTS.md.
-// gap: space from the booth's north outer face to this wall (assumed to be
-// measured from the outer face, not the inner one).  thickness: a guess,
-// matching the booth's side walls.  doorWidth: 32 in, from the notes.
-// doorOffset: space between the door and the wall's east end (the notes say
-// "3 in from that wall"; which wall, and which end, is not known).
-// doorHeight: a guess, copied from the booth door; not measured.
-export const NORTH_END = { gap: 40, thickness: 4, doorWidth: 32, doorOffset: 3, doorHeight: 80.5 };
+// Placeholder hallway east of the booth, from what Richard remembered on Nov 18.
+// Everything here is an unconfirmed estimate except the 4 in interior wall
+// thickness, which he measured.  See "Outside the booth" in MEASUREMENTS.md.
+// width: from the booth's outer east face to the near face of the far wall
+//   (his "let's call it 52").
+// wallThickness: interior walls, measured.
+// jutDepth, jutLength: for the first 48 in from its north end, the far wall
+//   comes 4 in closer to the booth (the little office).
+// openingWidth, openingFromNorth, openingHeight: the opening into the office,
+//   6 in from the far wall's north edge; the height is a "call it 80".
+// The far wall is as wide as the booth's inside (x = 0 to ROOM.width); that,
+// and the floor and ceiling thickness, are guesses.  The ends are left open.
+export const HALLWAY = {
+  width: 52,
+  wallThickness: 4,
+  jutDepth: 4,
+  jutLength: 48,
+  openingWidth: 32,
+  openingFromNorth: 6,
+  openingHeight: 80,
+};

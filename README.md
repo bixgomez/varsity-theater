@@ -61,7 +61,8 @@ You can't walk through the walls, the projector, the electrical closet, or the r
 - **Done:** the electrical closet (a plain block) and the rewind table (a simple table; the shelves above it are not measured yet).
 - **Done:** the conduit ledge and vertical conduit on the west wall, and the duct and exhaust box in the ceiling.  The vertical conduit's top height and the exhaust box's position along the wall are guesses.
 - **Done:** the wedge-shaped control box on the conduit ledge (plain; no switches yet).
-- **Done:** the open door, the shelves and wall clock on the east wall, and a see-through amber placeholder for the wall 40 in past the booth's north end, with its 32 in door.  The placeholder is rough and unconfirmed; the balcony and hallway aren't modeled yet.
+- **Done:** the open door, and the shelves and wall clock on the east wall.
+- **Rough:** a see-through amber placeholder for the hallway east of the booth (52 in wide, with the office jut and its opening), from remembered numbers.  The balcony and the doorway north of the booth aren't modeled yet.
 - **Not yet:** 35mm projectors and finishing touches (colors, lighting).
 
 ## Plan
@@ -70,7 +71,7 @@ The goal is to decide where the Barco and the two 35mm projectors go.  The curre
 
 1. Make the Barco movable, so you can slide it between ports and change the stand height.
 2. Add the 35mm projectors (their sizes aren't known yet, so they start as placeholders).
-3. Rough in the balcony and hallway once the open questions in `MEASUREMENTS.md` are answered.
+3. Check the hallway numbers on site, then rough in the balcony once the open questions in `MEASUREMENTS.md` are answered.
 4. Finishing touches.
 
 ## Guesses
