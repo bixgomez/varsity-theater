@@ -28,7 +28,8 @@ function block(minX, maxX, minY, maxY, minZ, maxZ) {
 
 // The hallway east of the booth: a floor and ceiling, the far wall across from
 // the booth, and the little office jutting out at the far wall's north end,
-// with an opening into the office.  Both ends of the hallway are left open.
+// with an opening into the office.  Both ends of the hallway are left open;
+// the floor runs 48 in past each end of the booth for now.
 export function buildHallway() {
   const H = HALLWAY;
   const minX = 0;
@@ -50,7 +51,7 @@ export function buildHallway() {
   ];
 
   const pieces = [
-    block(minX, maxX, -WALL.slab, 0, nearZ, farMaxZ), // floor
+    block(minX - H.floorOvershoot, maxX + H.floorOvershoot, -WALL.slab, 0, nearZ, farMaxZ), // floor, running past both ends
     block(minX, maxX, top, top + WALL.slab, nearZ, farMaxZ), // ceiling
     ...withOpening(farMinZ, farMaxZ, minX), // the far wall
     ...withOpening(jutMinZ, farMinZ, jutMinX), // the office jut

@@ -100,6 +100,8 @@ export const EAST_CLOCK = { size: 10, gap: 8, centerY: 66, depth: 1.5 };
 //   6 in from the far wall's north edge; the height is a "call it 80".
 // The far wall is as wide as the booth's inside (x = 0 to ROOM.width); that,
 // and the floor and ceiling thickness, are guesses.  The ends are left open.
+// floorOvershoot: the floor runs this far past the booth's north and south
+// ends ("by about 48 in, for now"); a stand-in until the real ends are known.
 export const HALLWAY = {
   width: 52,
   wallThickness: 4,
@@ -108,4 +110,5 @@ export const HALLWAY = {
   openingWidth: 32,
   openingFromNorth: 6,
   openingHeight: 80,
+  floorOvershoot: 48,
 };
