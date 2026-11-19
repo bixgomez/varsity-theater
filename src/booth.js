@@ -69,7 +69,9 @@ function buildSideWall(name, x) {
   // Side walls run past the west and east walls to close the corners.
   const length = ROOM.depth + WALL.west + WALL.east;
   const geometry = new THREE.BoxGeometry(WALL.side, ROOM.height, length);
-  const wall = new THREE.Mesh(geometry, material(COLORS.sideWall));
+  const side = material(COLORS.sideWall);
+  // BoxGeometry's last material covers the west-facing (-z) end.
+  const wall = new THREE.Mesh(geometry, [side, side, side, side, side, material(COLORS.westWall)]);
   wall.position.set(x, ROOM.height / 2, (ROOM.depth + WALL.east - WALL.west) / 2);
   wall.name = name;
   return wall;
