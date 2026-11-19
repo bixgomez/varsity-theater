@@ -5,7 +5,7 @@ import { WalkControls } from './walk-controls.js';
 import { buildFlySpace } from './fly-space.js';
 import { bindInfoPanel } from './info-panel.js';
 import { bindVisibilityPanel } from './visibility-panel.js';
-import { loadDevSession, saveDevSessionOnLeave } from './dev-session.js';
+import { loadSession, saveSessionOnLeave } from './session.js';
 import { BARCO, buildBarco, placeBarco } from './equipment/barco.js';
 import { buildStand } from './equipment/stand.js';
 import { buildHallway } from './outside.js';
@@ -237,9 +237,9 @@ window.booth = { scene, camera, controls };
 
 bindInfoPanel();
 
-// On the dev server, a reload (say, after a code change) puts you back where
-// you were, with the same Show toggles off.  See dev-session.js.
-const session = loadDevSession();
+// A reload puts you back where you were, with the same Show toggles off.
+// See session.js.
+const session = loadSession();
 const panel = bindVisibilityPanel(toggleable, setShown, session?.hidden ?? []);
 setObstaclesFor(panel.shownItems());
 if (session && controls.canBeAt(session.x, session.y, session.z)) {
@@ -249,7 +249,7 @@ if (session && controls.canBeAt(session.x, session.y, session.z)) {
   // Step out if something new (say, a piece added in the code) is in the way.
   controls.escapeObstacles();
 }
-saveDevSessionOnLeave(() => {
+saveSessionOnLeave(() => {
   const { x, y, z } = camera.position;
   return { x, y, z, yaw: controls.yaw, pitch: controls.pitch, hidden: panel.hiddenIds() };
 });

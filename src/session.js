@@ -1,15 +1,13 @@
-// While developing, keep your place across reloads.  When the dev server
-// reloads the page after a code change (or you reload it yourself), where you
-// stand, the way you face, and which Show toggles are off come back as they
-// were.  It's kept in sessionStorage, so it lasts only for this browser tab;
-// a new tab or window starts at home.  The published site skips all of this
-// and always starts at home.
+// Keep your place across reloads.  When you refresh the page (or the dev
+// server reloads it after a code change), where you stand, the way you face,
+// and which Show toggles are off come back as they were.  It's kept in
+// sessionStorage, so it lasts only for this browser tab; a new tab or window
+// starts at home.  If storage is blocked, you just start at home.
 
-const STORAGE_KEY = 'varsity-booth.dev-session';
+const STORAGE_KEY = 'varsity-booth.session';
 
-// The saved state, or null when there isn't one (or this isn't the dev server).
-export function loadDevSession() {
-  if (!import.meta.env.DEV) return null;
+// The saved state, or null when there isn't one.
+export function loadSession() {
   try {
     const state = JSON.parse(sessionStorage.getItem(STORAGE_KEY));
     const numbers = ['x', 'y', 'z', 'yaw', 'pitch'];
@@ -22,8 +20,7 @@ export function loadDevSession() {
 }
 
 // Save getState() whenever the page is about to go away.
-export function saveDevSessionOnLeave(getState) {
-  if (!import.meta.env.DEV) return;
+export function saveSessionOnLeave(getState) {
   const save = () => {
     try {
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify(getState()));
