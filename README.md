@@ -62,7 +62,7 @@ You can't walk through the walls, the projector, the electrical closet, or the r
 - **Done:** the conduit ledge and vertical conduit on the west wall, and the duct and exhaust box in the ceiling.  The vertical conduit's top height and the exhaust box's position along the wall are guesses.
 - **Done:** the wedge-shaped control box on the conduit ledge (plain; no switches yet).
 - **Done:** the open door, and the shelves and wall clock on the east wall.
-- **Rough:** a see-through amber placeholder for the hallway east of the booth (52 in wide, with the office jut and its opening), from remembered numbers.  The balcony and the doorway north of the booth aren't modeled yet.
+- **Rough:** a solid amber placeholder for the hallway east of the booth (52 in wide, with the office jut and its opening), from remembered numbers.  The balcony and the doorway north of the booth aren't modeled yet.
 - **Not yet:** 35mm projectors and finishing touches (colors, lighting).
 
 ## Plan

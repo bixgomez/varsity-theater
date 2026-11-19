@@ -2,21 +2,17 @@ import * as THREE from 'three';
 import { ROOM, WALL, HALLWAY } from './dimensions.js';
 
 // Placeholder pieces outside the booth, from Richard's Nov 18 field notes.
-// Everything here is rough and unconfirmed, so it's drawn in a see-through
-// amber to stand out from the measured booth.  Each builder returns the
+// Everything here is rough and unconfirmed, so it's drawn in solid amber to
+// stand out from the measured booth.  Each builder returns the
 // object and its collision boxes, { minX, maxX, minY, maxY, minZ, maxZ }.
 
 const PLACEHOLDER_COLOR = 0xe0a64a; // amber, so it's clearly not a real finish
-const PLACEHOLDER_OPACITY = 0.45;
 
 function placeholderMaterial() {
   return new THREE.MeshStandardMaterial({
     color: PLACEHOLDER_COLOR,
     roughness: 0.9,
     metalness: 0,
-    transparent: true,
-    opacity: PLACEHOLDER_OPACITY,
-    depthWrite: false,
   });
 }
 
