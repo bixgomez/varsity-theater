@@ -86,11 +86,12 @@ function wallWithDoorway(xMin, xMax, zMin, zMax, top, doorMinX, doorMaxX, doorTo
 // The hallway east of the booth and the floor and ceiling around the booth (the
 // floor is pretend hardwood; the ceiling is soft white; the walls are light gray): the
 // far wall across from the booth, and the little office jutting out at the far
-// wall's north end, with an opening into the office.  Both ends of the hallway
-// are left open.  The floor and ceiling run 48 in past the booth's north and
-// south sides for now.  On the west side the ceiling runs 20 ft past the booth,
-// and the floor stops at the booth's west wall, which carries on down below it
-// (booth.js), so the floor drops away right in front of the booth.
+// wall's north end, with an opening into the office.  A placeholder wall closes
+// off the north end of the outside floor; the south end is left open.  The
+// floor and ceiling run 48 in past the booth's north and south sides for now.
+// On the west side the ceiling runs 20 ft past the booth, and the floor stops
+// at the booth's west wall, which carries on down below it (booth.js), so the
+// floor drops away right in front of the booth.
 export function buildHallway() {
   const H = HALLWAY;
   const minX = 0;
@@ -174,11 +175,23 @@ export function buildHallway() {
     wallWithDoorway(jutMinX, maxX, jutMinZ, farMinZ, top, openMinX, openMaxX, H.openingHeight), // the office jut
   );
 
+  // Placeholder north wall: across the whole north end of the outside floor,
+  // from the booth's west wall to the hallway's far wall, floor to ceiling.
+  const northWall = box(sideMaxX - H.northWallThickness, sideMaxX, 0, top, boothHole.minZ, farMaxZ);
+  const northWallMesh = placeholder(
+    new THREE.BoxGeometry(northWall.maxX - northWall.minX, top, northWall.maxZ - northWall.minZ),
+    placeholderMaterial(HALL_WALL_COLOR),
+  );
+  northWallMesh.name = 'north-wall-placeholder';
+  northWallMesh.position.set((northWall.minX + northWall.maxX) / 2, top / 2, (northWall.minZ + northWall.maxZ) / 2);
+  hallway.add(northWallMesh);
+
   const obstacles = [
     ...slabBoxes(-WALL.slab, 0),
     ...slabBoxes(top, top + WALL.slab, ceilingOuter.minZ),
     ...wallBoxes(farMinZ, farMaxZ, minX),
     ...wallBoxes(jutMinZ, farMinZ, jutMinX),
+    northWall,
   ];
   return { hallway, obstacles };
 }

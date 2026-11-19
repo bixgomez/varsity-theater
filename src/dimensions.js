@@ -107,6 +107,10 @@ export const EAST_CLOCK = { size: 10, gap: 8, centerY: 66, depth: 1.5 };
 // ceilingWest: the ceiling runs this far past the booth's outer west face, with
 // the same north-south span as the rest of the outside ceiling (Richard's "a
 // total of 20 feet from the edge of the booth", Nov 19).
+// northWallThickness: a placeholder wall closing off the north end of the
+//   outside floor, its outer face at the floor's north edge (floorOvershoot
+//   past the booth); 4 in like the other interior walls.  Its position is a
+//   stand-in, not a measurement.
 export const HALLWAY = {
   width: 52,
   wallThickness: 4,
@@ -117,6 +121,7 @@ export const HALLWAY = {
   openingHeight: 80,
   floorOvershoot: 48,
   ceilingWest: 240,
+  northWallThickness: 4,
 };
 
 // The floor drops away right in front of the booth: the booth's west wall

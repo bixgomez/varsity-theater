@@ -83,7 +83,8 @@ In the model as the "Hallway and outside floor (placeholder)" toggle (light gray
 - A 32 wide opening into the office, 6 from the far wall's north edge, 80 tall ("call it 80").  No door leaf yet; he's not sure which way it would swing.
 - The floor and the ceiling outside the booth both run 48 past the booth's north and south sides, "for now" (Richard's stand-in until the real edges are known).
 - West of the booth (Nov 19): the ceiling runs out a total of 20 ft (240) past the booth's west wall, with the same north-south span.  The floor drops away right in front of the booth: there's no outside floor to the west, and the booth's west wall carries on down "maybe about 15 feet" (180) below the booth floor.  Both are Richard's rough numbers, not measurements.
-- Not modeled: the hallway's end walls, and what is behind the far wall.  The thickness of those slabs (8, copied from the booth) is a guess.
+- North end (Nov 19): a placeholder wall, 4 thick, closes off the whole north end of the outside floor, from the booth's west wall to the hallway's far wall, floor to ceiling (87).  Its outer face is at the floor's north edge, 48 past the booth.  Richard asked for it as a stand-in; its position is not measured.
+- Not modeled: the hallway's south end wall, and what is behind the far wall.  The thickness of those slabs (8, copied from the booth) is a guess.
 
 ### Doorway north of the booth (not modeled)
 
