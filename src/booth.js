@@ -128,6 +128,10 @@ export function buildBooth() {
     buildSlab('floor', -WALL.slab / 2, COLORS.floor, 0, true),
     buildSlab('ceiling', ROOM.height + WALL.slab / 2, COLORS.ceiling, -WALL.west),
   );
+  for (const surface of booth.children) {
+    surface.castShadow = true;
+    surface.receiveShadow = true;
+  }
   return booth;
 }
 
@@ -138,6 +142,9 @@ export function buildLights() {
   // Two ceiling lights, like the spotlights in the photos.
   for (const x of [ROOM.width * 0.35, ROOM.width * 0.7]) {
     const bulb = new THREE.PointLight(0xffe8c0, 1.6, 0, 0);
+    bulb.castShadow = true;
+    bulb.shadow.camera.far = 450;
+    bulb.shadow.normalBias = 0.08;
     bulb.position.set(x, ROOM.height - 6, ROOM.depth * 0.3);
     lights.add(bulb);
   }

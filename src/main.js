@@ -28,6 +28,7 @@ const MIN_FOV = 90; // vertical field of view, degrees; lower is more zoomed in
 const MAX_FOV = 110; // widest the view gets on tall phone screens
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.shadowMap.enabled = true;
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);

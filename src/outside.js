@@ -28,6 +28,7 @@ function placeholderMaterial(color) {
 // meet at an angle, so each piece is one continuous surface with no seams.
 function placeholder(geometry, material) {
   const mesh = new THREE.Mesh(geometry, material);
+  mesh.receiveShadow = true;
   mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(geometry), new THREE.LineBasicMaterial({ color: EDGE_COLOR })));
   return mesh;
 }
