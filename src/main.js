@@ -36,6 +36,9 @@ document.body.appendChild(renderer.domElement);
 const scene = new THREE.Scene();
 // Apply the same shadow defaults to assembled models and later additions.
 function enableModelShadows(object) {
+  if (object.isLight && object.shadow) {
+    object.shadow.mapSize.set(1024, 1024);
+  }
   if (object.isMesh) {
     object.castShadow = true;
     object.receiveShadow = true;
