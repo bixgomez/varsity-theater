@@ -91,8 +91,9 @@ function wallWithDoorway(xMin, xMax, zMin, zMax, top, doorMinX, doorMaxX, doorTo
 // floor and ceiling run 48 in past the booth's north and south sides for now.
 // On the west side the ceiling runs 20 ft past the booth, and the floor stops
 // at the booth's west wall, which carries on down below it (booth.js), so the
-// floor drops away right in front of the booth.
-export function buildHallway() {
+// floor drops away right in front of the booth.  floorMargin: how close the
+// camera may get to the outside floor.
+export function buildHallway({ floorMargin = 0 } = {}) {
   const H = HALLWAY;
   const minX = 0;
   const maxX = ROOM.width;
@@ -187,7 +188,7 @@ export function buildHallway() {
   hallway.add(northWallMesh);
 
   const obstacles = [
-    ...slabBoxes(-WALL.slab, 0),
+    ...slabBoxes(-WALL.slab, floorMargin), // the floor, plus the camera's clearance above it
     ...slabBoxes(top, top + WALL.slab, ceilingOuter.minZ),
     ...wallBoxes(farMinZ, farMaxZ, minX),
     ...wallBoxes(jutMinZ, farMinZ, jutMinX),

@@ -24,6 +24,7 @@ const EYE_HEIGHT = 67; // inches (5'7")
 const WALL_MARGIN = 3; // keep the camera this far from the walls
 const OBSTACLE_MARGIN = 2; // keep the camera this far from the equipment
 const CEILING_MARGIN = 6; // keep the camera this far below the ceiling
+const FLOOR_MARGIN = 3; // keep the camera at least this far above the floor
 const MIN_FOV = 90; // vertical field of view, degrees; lower is more zoomed in
 const MAX_FOV = 110; // widest the view gets on tall phone screens
 
@@ -76,7 +77,7 @@ const controlBox = buildControlBox();
 const { shelves: eastShelves, obstacle: shelvesObstacle } = buildEastShelves();
 const eastClock = buildEastClock();
 const { door: eastDoor, obstacle: doorObstacle } = buildOpenDoor();
-const { hallway, obstacles: hallwayObstacles } = buildHallway();
+const { hallway, obstacles: hallwayObstacles } = buildHallway({ floorMargin: FLOOR_MARGIN });
 scene.add(hallway);
 scene.add(closet, rewindTable, buildWestWallConduit(), controlBox, buildCeilingFixtures(), eastShelves, eastClock, eastDoor);
 
@@ -85,7 +86,7 @@ const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerH
 const controls = new WalkControls(camera, renderer.domElement, {
   eyeHeight: EYE_HEIGHT,
   // Walls are solid, but you can fly out through any window or the door.
-  canBeAt: buildFlySpace({ wallMargin: WALL_MARGIN, ceilingMargin: CEILING_MARGIN }),
+  canBeAt: buildFlySpace({ wallMargin: WALL_MARGIN, ceilingMargin: CEILING_MARGIN, floorMargin: FLOOR_MARGIN }),
 });
 // Everything in the booth blocks you from floor to ceiling.
 const inBooth = { minY: 0, maxY: ROOM.height };

@@ -19,7 +19,7 @@ This is Richard's Three.js model of the projection booth at the Grand Illusion C
 - The default camera looks down -z, so it faces the windows.
 - `src/dimensions.js` holds the room, window, and door numbers.  Keep it in sync with `MEASUREMENTS.md`.
 - `src/booth.js` builds the room; `src/fixtures.js` builds the closet, rewind table, conduit, duct, exhaust box, and control box; `src/outside.js` builds placeholder pieces outside the booth (see `MEASUREMENTS.md`, "Outside the booth"); `src/equipment/` holds the projector and stand; `src/walk-controls.js` handles walking and looking.
-- Keyboard controls (walk, turn, move up and down, tilt, level) are listed in `README.md`.  Inside the booth the camera can't go below the floor or within 6 in of the ceiling.  The walls are solid except for the eight windows and the door, which you can fly through; `src/fly-space.js` defines where the camera may be.  Booth obstacles block from floor to ceiling, so you can't fly over a table or the projector.
+- Keyboard controls (walk, turn, move up and down, tilt, level) are listed in `README.md`.  Inside the booth the camera can't go within 3 in of the floor or 6 in of the ceiling; over the outside floor it also stays 3 in up.  The walls are solid except for the eight windows and the door, which you can fly through; `src/fly-space.js` defines where the camera may be.  Booth obstacles block from floor to ceiling, so you can't fly over a table or the projector.
 
 ## Design decisions already made
 
