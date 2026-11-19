@@ -3,19 +3,22 @@ import { ROOM, WALL, HALLWAY } from './dimensions.js';
 import { hardwoodMaterial } from './hardwood.js';
 
 // Placeholder pieces outside the booth, from Richard's Nov 18 field notes.
-// Everything here is rough and unconfirmed, so it's drawn in solid amber to
-// stand out from the measured booth.  The builder returns the objects and
+// Everything here is rough and unconfirmed.  The hallway walls are a light
+// gray (the real ones are painted white); the ceiling stays amber so it stands
+// out from the measured booth.  The builder returns the objects and
 // their collision boxes, { minX, maxX, minY, maxY, minZ, maxZ }.
 
 const PLACEHOLDER_COLOR = 0xe0a64a; // amber, so it's clearly not a real finish
+const WALL_COLOR = 0xc9cacc; // light neutral gray, a little cooler and darker than the booth's off-white
 // There are no lights out here, so faces that point the same way get the same
 // shade and their corners would blur together.  A thin darker line along every
 // corner keeps them visible, without changing the lighting in the booth.
-const EDGE_COLOR = 0x5a3a0a;
+const EDGE_COLOR = 0x5a3a0a; // dark brown, for the amber pieces
+const WALL_EDGE_COLOR = 0x6b6d70; // darker gray, for the gray walls
 
-function placeholderMaterial() {
+function placeholderMaterial(color = PLACEHOLDER_COLOR) {
   return new THREE.MeshStandardMaterial({
-    color: PLACEHOLDER_COLOR,
+    color,
     roughness: 0.9,
     metalness: 0,
     // Nudge the faces back a hair so the edge lines don't flicker against them.
@@ -27,9 +30,9 @@ function placeholderMaterial() {
 
 // A mesh with a line along its corners.  Lines are drawn only where two faces
 // meet at an angle, so each piece is one continuous surface with no seams.
-function placeholder(geometry, material = placeholderMaterial()) {
+function placeholder(geometry, material = placeholderMaterial(), edgeColor = EDGE_COLOR) {
   const mesh = new THREE.Mesh(geometry, material);
-  mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(geometry), new THREE.LineBasicMaterial({ color: EDGE_COLOR })));
+  mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(geometry), new THREE.LineBasicMaterial({ color: edgeColor })));
   return mesh;
 }
 
@@ -61,7 +64,8 @@ function slab(outer, hole, y0, y1, material) {
 }
 
 // A wall from the floor up to `top`, from xMin to xMax and zMin to zMax, with a
-// doorway notched out of its bottom between doorMinX and doorMaxX.
+// doorway notched out of its bottom between doorMinX and doorMaxX.  Walls are
+// light gray.
 function wallWithDoorway(xMin, xMax, zMin, zMax, top, doorMinX, doorMaxX, doorTop) {
   const shape = new THREE.Shape();
   shape.moveTo(xMin, 0);
@@ -75,11 +79,11 @@ function wallWithDoorway(xMin, xMax, zMin, zMax, top, doorMinX, doorMaxX, doorTo
   shape.closePath();
   const geometry = new THREE.ExtrudeGeometry(shape, { depth: zMax - zMin, bevelEnabled: false });
   geometry.translate(0, 0, zMin);
-  return placeholder(geometry);
+  return placeholder(geometry, placeholderMaterial(WALL_COLOR), WALL_EDGE_COLOR);
 }
 
 // The hallway east of the booth and the floor and ceiling around the booth (the
-// floor is pretend hardwood; the ceiling is amber): the
+// floor is pretend hardwood; the ceiling is amber; the walls are light gray): the
 // far wall across from the booth, and the little office jutting out at the far
 // wall's north end, with an opening into the office.  Both ends of the hallway
 // are left open.  The floor and ceiling run 48 in past the booth's north,
@@ -123,7 +127,7 @@ export function buildHallway() {
   ];
 
   // The floor is pretend hardwood, like the booth's; it gets the same nudge as
-  // the amber pieces so the edge lines don't flicker.
+  // the other pieces so the edge lines don't flicker.
   const floorMaterial = hardwoodMaterial();
   floorMaterial.polygonOffset = true;
   floorMaterial.polygonOffsetFactor = 1;

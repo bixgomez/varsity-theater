@@ -64,7 +64,7 @@ Refreshing the page puts you back where you were, facing the same way, with the 
 - **Done:** the conduit ledge and vertical conduit on the west wall, and the duct and exhaust box in the ceiling.  The vertical conduit's top height and the exhaust box's position along the wall are guesses.
 - **Done:** the wedge-shaped control box on the conduit ledge (plain; no switches yet).
 - **Done:** the open door, and the shelves and wall clock on the east wall.
-- **Rough:** a solid amber placeholder for the hallway east of the booth (52 in wide, with the office jut and its opening), from remembered numbers.  The balcony and the doorway north of the booth aren't modeled yet.
+- **Rough:** a placeholder for the hallway east of the booth (52 in wide, with the office jut and its opening), from remembered numbers.  Its walls are light gray (the real ones are painted white) and its ceiling is amber.  The balcony and the doorway north of the booth aren't modeled yet.
 - **Not yet:** 35mm projectors and finishing touches (colors, lighting).
 
 ## Plan
