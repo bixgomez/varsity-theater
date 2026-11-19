@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { ROOM, WALL, WINDOWS, DOOR } from './dimensions.js';
+import { ROOM, WALL, WINDOWS, DOOR, WEST_DROP } from './dimensions.js';
 import { hardwoodMaterial, setWorldFloorUVs } from './hardwood.js';
 
 // Placeholder colors, roughly matched to the photos.  Step 4 refines these.
@@ -75,14 +75,31 @@ function buildSideWall(name, x) {
   return wall;
 }
 
-// Floor and ceiling slabs, flush with the outside faces of the walls.
-function buildSlab(name, y, color, wood = false) {
-  const geometry = new THREE.BoxGeometry(ROOM.width + 2 * WALL.side, WALL.slab, ROOM.depth + WALL.west + WALL.east);
+// Floor and ceiling slabs, flush with the outside faces of the walls.  minZ is
+// where the slab starts on the west side: the ceiling runs over the west wall,
+// but the floor stops at the wall's inner face, because the wall carries on
+// down past it (see buildWestDrop).
+function buildSlab(name, y, color, minZ, wood = false) {
+  const maxZ = ROOM.depth + WALL.east;
+  const geometry = new THREE.BoxGeometry(ROOM.width + 2 * WALL.side, WALL.slab, maxZ - minZ);
   const slab = new THREE.Mesh(geometry, wood ? hardwoodMaterial() : material(color));
-  slab.position.set(ROOM.width / 2, y, (ROOM.depth + WALL.east - WALL.west) / 2);
+  slab.position.set(ROOM.width / 2, y, (minZ + maxZ) / 2);
   if (wood) setWorldFloorUVs(geometry, slab.position);
   slab.name = name;
   return slab;
+}
+
+// The floor drops away right in front of the booth, so the west wall carries
+// on down below the booth floor, across the booth's full outside width.  It
+// sits under the west wall and the corners of the side walls, from the floor
+// line down, so the wall reads as one face with no seam.
+function buildWestDrop() {
+  const width = ROOM.width + 2 * WALL.side;
+  const geometry = new THREE.BoxGeometry(width, WEST_DROP, WALL.west);
+  const drop = new THREE.Mesh(geometry, material(COLORS.westWall));
+  drop.position.set(ROOM.width / 2, -WEST_DROP / 2, -WALL.west / 2);
+  drop.name = 'west-wall-drop';
+  return drop;
 }
 
 export function buildBooth() {
@@ -93,8 +110,9 @@ export function buildBooth() {
     buildEastWall(),
     buildSideWall('south-wall', -WALL.side / 2),
     buildSideWall('north-wall', ROOM.width + WALL.side / 2),
-    buildSlab('floor', -WALL.slab / 2, COLORS.floor, true),
-    buildSlab('ceiling', ROOM.height + WALL.slab / 2, COLORS.ceiling),
+    buildWestDrop(),
+    buildSlab('floor', -WALL.slab / 2, COLORS.floor, 0, true),
+    buildSlab('ceiling', ROOM.height + WALL.slab / 2, COLORS.ceiling, -WALL.west),
   );
   return booth;
 }

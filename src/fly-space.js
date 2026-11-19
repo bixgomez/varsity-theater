@@ -1,9 +1,10 @@
-import { ROOM, WALL, WINDOWS, DOOR } from './dimensions.js';
+import { ROOM, WALL, WINDOWS, DOOR, WEST_DROP } from './dimensions.js';
 
 // Where the camera is allowed to be.  Inside the booth it keeps a margin from
 // the walls, floor, and ceiling.  It can pass through a wall only where it
 // fits inside a window or the door opening.  Outside the booth it can fly
-// anywhere within a big outer box, but it can't pass through the booth's shell.
+// anywhere within a big outer box, but it can't pass through the booth's shell
+// or the part of the west wall that runs down below the booth floor.
 
 const OPENING_MARGIN = 2; // inches the eye must stay inside an opening's edges
 const OUTER_LIMIT = 600; // inches you can fly out past the booth; a free choice, not a measurement
@@ -36,6 +37,8 @@ export function buildFlySpace({ wallMargin, ceilingMargin }) {
     ROOM.depth + WALL.east,
   );
   const nearShell = grow(shell, m);
+  // The west wall carries on down below the booth floor.
+  const nearDrop = grow(box(-WALL.side, ROOM.width + WALL.side, -WEST_DROP, 0, -WALL.west, 0), m);
   const outer = grow(shell, OUTER_LIMIT);
 
   const inside = box(m, ROOM.width - m, 0, ROOM.height - ceilingMargin, m, ROOM.depth - m);
@@ -48,6 +51,6 @@ export function buildFlySpace({ wallMargin, ceilingMargin }) {
   return function canBeAt(x, y, z) {
     if (contains(inside, x, y, z)) return true;
     if (openings.some((o) => contains(o, x, y, z))) return true;
-    return contains(outer, x, y, z) && !contains(nearShell, x, y, z);
+    return contains(outer, x, y, z) && !contains(nearShell, x, y, z) && !contains(nearDrop, x, y, z);
   };
 }

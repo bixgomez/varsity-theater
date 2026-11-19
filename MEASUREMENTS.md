@@ -81,7 +81,8 @@ In the model as the "Hallway and outside floor (placeholder)" toggle (light gray
 - The hallway is about 52 wide, from the booth's east wall to the far wall ("let's call it 52").  The model measures from the booth's outer east face.
 - For the first 48 from the far wall's north end, the wall comes 4 closer to the booth, leaving 48 of hallway there.  This jut is a little office, on the far wall across from the booth.  Richard first said 8, then settled on 4 ("let's say").
 - A 32 wide opening into the office, 6 from the far wall's north edge, 80 tall ("call it 80").  No door leaf yet; he's not sure which way it would swing.
-- The floor and the ceiling outside the booth both run 48 past the booth's north, south, and west sides, "for now" (Richard's stand-in until the real edges are known).
+- The floor and the ceiling outside the booth both run 48 past the booth's north and south sides, "for now" (Richard's stand-in until the real edges are known).
+- West of the booth (Nov 19): the ceiling runs out a total of 20 ft (240) past the booth's west wall, with the same north-south span.  The floor drops away right in front of the booth: there's no outside floor to the west, and the booth's west wall carries on down "maybe about 15 feet" (180) below the booth floor.  Both are Richard's rough numbers, not measurements.
 - Not modeled: the hallway's end walls, and what is behind the far wall.  The thickness of those slabs (8, copied from the booth) is a guess.
 
 ### Doorway north of the booth (not modeled)

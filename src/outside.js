@@ -39,27 +39,31 @@ function box(minX, maxX, minY, maxY, minZ, maxZ) {
   return { minX, maxX, minY, maxY, minZ, maxZ };
 }
 
-// A flat slab seen from above: the rectangle `outer` with the rectangle `hole`
-// cut out of it, from height y0 up to y1.  Each is { minX, maxX, minZ, maxZ }.
-function slab(outer, hole, y0, y1, material) {
+// A flat slab seen from above, from height y0 up to y1.  outline is a list of
+// [x, z] corners; hole, if given, is a rectangle { minX, maxX, minZ, maxZ } cut
+// out of it.
+function slab(outline, hole, y0, y1, material) {
   const shape = new THREE.Shape();
-  shape.moveTo(outer.minX, outer.minZ);
-  shape.lineTo(outer.maxX, outer.minZ);
-  shape.lineTo(outer.maxX, outer.maxZ);
-  shape.lineTo(outer.minX, outer.maxZ);
+  outline.forEach(([x, z], i) => (i === 0 ? shape.moveTo(x, z) : shape.lineTo(x, z)));
   shape.closePath();
-  const cut = new THREE.Path();
-  cut.moveTo(hole.minX, hole.minZ);
-  cut.lineTo(hole.maxX, hole.minZ);
-  cut.lineTo(hole.maxX, hole.maxZ);
-  cut.lineTo(hole.minX, hole.maxZ);
-  cut.closePath();
-  shape.holes.push(cut);
+  if (hole) {
+    const cut = new THREE.Path();
+    cut.moveTo(hole.minX, hole.minZ);
+    cut.lineTo(hole.maxX, hole.minZ);
+    cut.lineTo(hole.maxX, hole.maxZ);
+    cut.lineTo(hole.minX, hole.maxZ);
+    cut.closePath();
+    shape.holes.push(cut);
+  }
 
   const geometry = new THREE.ExtrudeGeometry(shape, { depth: y1 - y0, bevelEnabled: false });
   geometry.rotateX(Math.PI / 2); // the shape's second axis becomes z; the extrusion hangs down from y = 0
   geometry.translate(0, y1, 0);
   return placeholder(geometry, material);
+}
+
+function rectOutline(r) {
+  return [[r.minX, r.minZ], [r.maxX, r.minZ], [r.maxX, r.maxZ], [r.minX, r.maxZ]];
 }
 
 // A wall from the floor up to `top`, from xMin to xMax and zMin to zMax, with a
@@ -85,8 +89,10 @@ function wallWithDoorway(xMin, xMax, zMin, zMax, top, doorMinX, doorMaxX, doorTo
 // floor is pretend hardwood; the ceiling is soft white; the walls are light gray): the
 // far wall across from the booth, and the little office jutting out at the far
 // wall's north end, with an opening into the office.  Both ends of the hallway
-// are left open.  The floor and ceiling run 48 in past the booth's north,
-// south, and west sides for now.
+// are left open.  The floor and ceiling run 48 in past the booth's north and
+// south sides for now.  On the west side the ceiling runs 20 ft past the booth,
+// and the floor stops at the booth's west wall, which carries on down below it
+// (booth.js), so the floor drops away right in front of the booth.
 export function buildHallway() {
   const H = HALLWAY;
   const minX = 0;
@@ -100,22 +106,33 @@ export function buildHallway() {
   const openMinX = openMaxX - H.openingWidth;
   const top = ROOM.height;
 
-  // The floor and ceiling run past the booth on three sides, and out to the far
-  // wall.  The booth's own floor and ceiling slabs fill the hole in the middle.
-  const slabOuter = {
-    minX: minX - H.floorOvershoot,
-    maxX: maxX + H.floorOvershoot,
-    minZ: -WALL.west - H.floorOvershoot,
-    maxZ: farMaxZ,
-  };
+  // The floor and ceiling run past the booth to the north and south, and out to
+  // the far wall.  The ceiling also runs out past the booth to the west; the
+  // floor doesn't.  The booth's own floor and ceiling slabs fill the gap in the
+  // middle.
+  const sideMinX = minX - H.floorOvershoot;
+  const sideMaxX = maxX + H.floorOvershoot;
   const boothHole = { minX: -WALL.side, maxX: ROOM.width + WALL.side, minZ: -WALL.west, maxZ: nearZ };
+  const ceilingOuter = { minX: sideMinX, maxX: sideMaxX, minZ: -WALL.west - H.ceilingWest, maxZ: farMaxZ };
+  // The floor, seen from above, is a U around the booth, open to the west.
+  const floorOutline = [
+    [sideMinX, boothHole.minZ],
+    [boothHole.minX, boothHole.minZ],
+    [boothHole.minX, boothHole.maxZ],
+    [boothHole.maxX, boothHole.maxZ],
+    [boothHole.maxX, boothHole.minZ],
+    [sideMaxX, boothHole.minZ],
+    [sideMaxX, farMaxZ],
+    [sideMinX, farMaxZ],
+  ];
 
-  // Collision boxes for a slab: the hallway, west, south, and north parts.
-  const slabBoxes = (y0, y1) => [
-    box(slabOuter.minX, slabOuter.maxX, y0, y1, nearZ, farMaxZ),
-    box(slabOuter.minX, slabOuter.maxX, y0, y1, slabOuter.minZ, boothHole.minZ),
-    box(slabOuter.minX, boothHole.minX, y0, y1, boothHole.minZ, nearZ),
-    box(boothHole.maxX, slabOuter.maxX, y0, y1, boothHole.minZ, nearZ),
+  // Collision boxes for a slab: the hallway, south, and north parts, plus the
+  // west part when the slab has one.
+  const slabBoxes = (y0, y1, westMinZ) => [
+    box(sideMinX, sideMaxX, y0, y1, nearZ, farMaxZ),
+    box(sideMinX, boothHole.minX, y0, y1, boothHole.minZ, nearZ),
+    box(boothHole.maxX, sideMaxX, y0, y1, boothHole.minZ, nearZ),
+    ...(westMinZ === undefined ? [] : [box(sideMinX, sideMaxX, y0, y1, westMinZ, boothHole.minZ)]),
   ];
 
   // Collision boxes for a wall with the office opening: both sides and the lintel.
@@ -135,15 +152,15 @@ export function buildHallway() {
   const hallway = new THREE.Group();
   hallway.name = 'hallway-placeholder';
   hallway.add(
-    slab(slabOuter, boothHole, -WALL.slab, 0, floorMaterial), // floor
-    slab(slabOuter, boothHole, top, top + WALL.slab, placeholderMaterial(CEILING_COLOR)), // ceiling
+    slab(floorOutline, null, -WALL.slab, 0, floorMaterial), // floor
+    slab(rectOutline(ceilingOuter), boothHole, top, top + WALL.slab, placeholderMaterial(CEILING_COLOR)), // ceiling
     wallWithDoorway(minX, maxX, farMinZ, farMaxZ, top, openMinX, openMaxX, H.openingHeight), // the far wall
     wallWithDoorway(jutMinX, maxX, jutMinZ, farMinZ, top, openMinX, openMaxX, H.openingHeight), // the office jut
   );
 
   const obstacles = [
     ...slabBoxes(-WALL.slab, 0),
-    ...slabBoxes(top, top + WALL.slab),
+    ...slabBoxes(top, top + WALL.slab, ceilingOuter.minZ),
     ...wallBoxes(farMinZ, farMaxZ, minX),
     ...wallBoxes(jutMinZ, farMinZ, jutMinX),
   ];

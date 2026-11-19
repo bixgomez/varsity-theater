@@ -100,9 +100,13 @@ export const EAST_CLOCK = { size: 10, gap: 8, centerY: 66, depth: 1.5 };
 //   6 in from the far wall's north edge; the height is a "call it 80".
 // The far wall is as wide as the booth's inside (x = 0 to ROOM.width); that,
 // and the floor and ceiling thickness, are guesses.  The ends are left open.
-// floorOvershoot: the floor and ceiling run this far past the booth's north,
-// south, and west sides ("by about 48 in, for now"); a stand-in until the real
-// edges are known.
+// floorOvershoot: the floor and ceiling run this far past the booth's north and
+// south sides ("by about 48 in, for now"); a stand-in until the real edges are
+// known.  On the west side the floor stops at the booth's west wall (see
+// WEST_DROP).
+// ceilingWest: the ceiling runs this far past the booth's outer west face, with
+// the same north-south span as the rest of the outside ceiling (Richard's "a
+// total of 20 feet from the edge of the booth", Nov 19).
 export const HALLWAY = {
   width: 52,
   wallThickness: 4,
@@ -112,4 +116,10 @@ export const HALLWAY = {
   openingFromNorth: 6,
   openingHeight: 80,
   floorOvershoot: 48,
+  ceilingWest: 240,
 };
+
+// The floor drops away right in front of the booth: the booth's west wall
+// carries on down this far below the booth floor (Richard's "maybe about 15
+// feet", Nov 19; a guess, not a measurement).
+export const WEST_DROP = 180;
