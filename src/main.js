@@ -8,6 +8,7 @@ import { bindVisibilityPanel } from './visibility-panel.js';
 import { loadDevSession, saveDevSessionOnLeave } from './dev-session.js';
 import { BARCO, buildBarco, placeBarco } from './equipment/barco.js';
 import { buildStand } from './equipment/stand.js';
+import { buildNorthEndWall } from './outside.js';
 import {
   buildElectricalCloset,
   buildRewindTable,
@@ -55,6 +56,8 @@ const controlBox = buildControlBox();
 const { shelves: eastShelves, obstacle: shelvesObstacle } = buildEastShelves();
 const eastClock = buildEastClock();
 const { door: eastDoor, obstacle: doorObstacle } = buildOpenDoor();
+const { wall: northEndWall, obstacles: northEndObstacles } = buildNorthEndWall();
+scene.add(northEndWall);
 scene.add(closet, rewindTable, buildWestWallConduit(), controlBox, buildCeilingFixtures(), eastShelves, eastClock, eastDoor);
 
 const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 5000);
@@ -113,6 +116,12 @@ const toggleable = [
     objects: [eastClock],
     // Flat on the wall; the wall margin already keeps you off it.
     obstacles: [],
+  },
+  {
+    id: 'north-end-wall',
+    label: 'North-end wall (placeholder)',
+    objects: [northEndWall],
+    obstacles: northEndObstacles,
   },
 ];
 const setObstaclesFor = (shown) => {

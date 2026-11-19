@@ -67,6 +67,37 @@ From Barco's safety manual (R5910027/14):
 
 The plan is to put the digital projector in the center, with a 35mm projector on each side.  Each 35mm projector needs threading room on its right side.
 
+## Outside the booth (Nov 18 field notes)
+
+Rough field measurements from Richard's Nov 18 voice calls.  They are not confirmed, and some don't say which wall they're measured from; see the open questions below.
+
+### North end of the booth
+
+- The next wall past the north end of the booth is 40 away.  The model stops there.
+- That wall is in the model as an amber, see-through placeholder (the "North-end wall" toggle).  It assumes the 40 is measured from the booth's outer north face; the 4 thickness, the full-width span, and floor-to-ceiling height are guesses.
+- A 32 wide door is 3 in from "that wall".  It leads to the other balcony.  The model puts it in the placeholder wall, 3 in from the east end; its 80.5 height is a guess copied from the booth door.
+- 48 to the west of that is the next booth.  Not modeled yet.
+
+### Balcony side (from the hallway)
+
+Not modeled yet; the orientation is too uncertain to place.
+
+- A door leads from the hallway to the balcony, going north.
+- The balcony wall is 105 north of that door.
+- At the 82 mark (inside), the balcony splays wider, to about 11.5 ft (138).
+- Main area depth: 10 ft (120).
+- The splay is unresolved.  Richard: "It kind of seems like the whole rest of the theater splays out... I think more research is needed on that.  Maybe it doesn't splay at all.  It certainly looks like it does."
+
+### Open questions
+
+1. Splay: where it starts and stops, the angle, and whether it is real or just how it looks.
+2. Which surface the 82 mark is measured from.
+3. Which wall the 105 and the 10 ft are measured from, and which direction the 10 ft runs.
+4. Hallway width and exact position relative to the booth walls (the booth door is in the east wall, but the notes assumed the hallway is west of the booth; not confirmed).
+5. Which wall the 32 door's 3 in offset is measured from, and which way the door swings.
+6. Door heights for both balcony doors.
+7. Whether the 40 to the north-end wall is measured from the booth's inner or outer north face.
+
 ## Still to measure
 
 - The exhaust box's distance from the south or north wall
@@ -74,3 +105,4 @@ The plan is to put the digital projector in the center, with a 35mm projector on
 - Where the exhaust box leads, and whether its fan still works and can pull at least 300 CFM
 - The Barco's lens position on its front face
 - The 35mm projectors: model and dimensions
+- The open questions under "Outside the booth"

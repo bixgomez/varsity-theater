@@ -87,3 +87,14 @@ export const EAST_SHELVES = {
 // how far it stands off the wall.  gap, centerY, and depth are guesses from
 // the east wall photo, not measured.
 export const EAST_CLOCK = { size: 10, gap: 8, centerY: 66, depth: 1.5 };
+
+// Placeholder wall past the north end of the booth, from Richard's Nov 18
+// field notes ("the next wall is 40 in away"; "Let's not go beyond that").
+// These are rough and unconfirmed.  See OPEN QUESTIONS in MEASUREMENTS.md.
+// gap: space from the booth's north outer face to this wall (assumed to be
+// measured from the outer face, not the inner one).  thickness: a guess,
+// matching the booth's side walls.  doorWidth: 32 in, from the notes.
+// doorOffset: space between the door and the wall's east end (the notes say
+// "3 in from that wall"; which wall, and which end, is not known).
+// doorHeight: a guess, copied from the booth door; not measured.
+export const NORTH_END = { gap: 40, thickness: 4, doorWidth: 32, doorOffset: 3, doorHeight: 80.5 };

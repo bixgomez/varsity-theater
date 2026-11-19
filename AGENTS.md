@@ -18,7 +18,7 @@ This is Richard's Three.js model of the projection booth at the Grand Illusion C
 - Axes: x runs south to north (0 to 179), y runs floor to ceiling (0 to 87), z runs west to east (0 to 128).  The windows are in the west wall (z = 0); the door is in the east wall (z = 128).
 - The default camera looks down -z, so it faces the windows.
 - `src/dimensions.js` holds the room, window, and door numbers.  Keep it in sync with `MEASUREMENTS.md`.
-- `src/booth.js` builds the room; `src/fixtures.js` builds the closet, rewind table, conduit, duct, exhaust box, and control box; `src/equipment/` holds the projector and stand; `src/walk-controls.js` handles walking and looking.
+- `src/booth.js` builds the room; `src/fixtures.js` builds the closet, rewind table, conduit, duct, exhaust box, and control box; `src/outside.js` builds placeholder pieces outside the booth (see `MEASUREMENTS.md`, "Outside the booth"); `src/equipment/` holds the projector and stand; `src/walk-controls.js` handles walking and looking.
 - Keyboard controls (walk, turn, move up and down, tilt, level) are listed in `README.md`.  Inside the booth the camera can't go below the floor or within 6 in of the ceiling.  The walls are solid except for the eight windows and the door, which you can fly through; `src/fly-space.js` defines where the camera may be.  Booth obstacles block from floor to ceiling, so you can't fly over a table or the projector.
 
 ## Design decisions already made
@@ -44,7 +44,7 @@ This is Richard's Three.js model of the projection booth at the Grand Illusion C
 
 1. Make the Barco movable, so Richard can slide it between ports and change the stand height.
 2. Add the 35mm projectors, as labeled placeholders if he still doesn't have their sizes.
-3. Build the door (hinged on the closet side, opens into the booth).  Then the finishing touches (see the plan in `README.md`).
+3. Rough in the balcony and hallway outside the booth, after Richard answers the open questions in `MEASUREMENTS.md`.  Then the finishing touches (see the plan in `README.md`).
 
 ## The phone preview
 
