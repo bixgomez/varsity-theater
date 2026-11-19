@@ -161,7 +161,7 @@ export function buildHallway() {
   fixture.add(housing, tube);
   // Spread the neutral light along the tube in this inch-scale scene.
   for (const x of [-16, 0, 16]) {
-    const light = new THREE.SpotLight(0xfffefa, 690, 120, Math.PI * 0.48, 0.35, 2);
+    const light = new THREE.SpotLight(0xfffefa, 2070, 120, Math.PI * 0.48, 0.35, 2);
     light.position.set(x, -2.6, 0);
     light.target.position.set(x, -top, 0);
     fixture.add(light, light.target);
