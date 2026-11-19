@@ -111,6 +111,13 @@ export const EAST_CLOCK = { size: 10, gap: 8, centerY: 66, depth: 1.5 };
 //   outside floor, its outer face at the floor's north edge (floorOvershoot
 //   past the booth); 4 in like the other interior walls.  Its position is a
 //   stand-in, not a measurement.
+// sideWallFromEast, sideWallThickness: placeholder walls north and south of the
+//   booth, running north to south and floor to ceiling.  Each one's east face
+//   is sideWallFromEast west of the booth's outer east face (Richard's "40 in
+//   back from the east edge of the booth", Nov 19).  The north one runs from
+//   the booth's north wall to the north wall; the south one runs from the
+//   booth's south wall to the floor's south edge.  4 in like the other
+//   interior walls; a stand-in, not a measurement.
 export const HALLWAY = {
   width: 52,
   wallThickness: 4,
@@ -122,6 +129,8 @@ export const HALLWAY = {
   floorOvershoot: 48,
   ceilingWest: 240,
   northWallThickness: 4,
+  sideWallFromEast: 40,
+  sideWallThickness: 4,
 };
 
 // The floor drops away right in front of the booth: the booth's west wall
