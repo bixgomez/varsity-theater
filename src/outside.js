@@ -1,15 +1,15 @@
 import * as THREE from 'three';
 import { ROOM, WALL, HALLWAY } from './dimensions.js';
 import { hardwoodMaterial } from './hardwood.js';
+import { CEILING_COLOR } from './booth.js';
 
 // Placeholder pieces outside the booth, from Richard's Nov 18 field notes.
 // Everything here is rough and unconfirmed.  The hallway walls are a light
-// gray and the ceiling a soft white (the real walls are painted white).  The
-// builder returns the objects and
-// their collision boxes, { minX, maxX, minY, maxY, minZ, maxZ }.
+// gray (the real ones are painted white), and the ceiling is the same soft
+// white as the booth's ceiling.  The builder returns the objects and their
+// collision boxes, { minX, maxX, minY, maxY, minZ, maxZ }.
 
 const WALL_COLOR = 0xc9cacc; // light neutral gray, a little cooler and darker than the booth's off-white
-const CEILING_COLOR = 0xeae8e3; // soft white, a touch lighter than the booth's off-white
 // There are no lights out here, so faces that point the same way get the same
 // shade and their corners would blur together.  A thin darker line along every
 // corner keeps them visible, without changing the lighting in the booth.

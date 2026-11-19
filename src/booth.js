@@ -3,11 +3,15 @@ import { ROOM, WALL, WINDOWS, DOOR } from './dimensions.js';
 import { hardwoodMaterial, setWorldFloorUVs } from './hardwood.js';
 
 // Placeholder colors, roughly matched to the photos.  Step 4 refines these.
+// The booth ceiling and the hallway ceiling are one continuous ceiling, so
+// they share this color (outside.js imports it).
+export const CEILING_COLOR = 0xeae8e3; // soft white
+
 const COLORS = {
   westWall: 0x4f6b5c, // booth green
   eastWall: 0x4f6b5c,
   sideWall: 0xd9d4c5, // off-white
-  ceiling: 0xd9d4c5,
+  ceiling: CEILING_COLOR,
   floor: 0x3a403c, // the old floor color; the floor is now pretend hardwood (see hardwood.js)
 };
 
