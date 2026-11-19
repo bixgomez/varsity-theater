@@ -9,9 +9,7 @@ import { CEILING_COLOR, HALL_WALL_COLOR } from './booth.js';
 // white as the booth's ceiling.  The builder returns the objects and their
 // collision boxes, { minX, maxX, minY, maxY, minZ, maxZ }.
 
-// There are no lights out here, so faces that point the same way get the same
-// shade and their corners would blur together.  A thin darker line along every
-// corner keeps them visible, without changing the lighting in the booth.
+// Thin darker lines distinguish the corners of the placeholder hallway.
 const EDGE_COLOR = 0x6b6d70; // darker gray
 
 function placeholderMaterial(color) {
@@ -150,6 +148,24 @@ export function buildHallway() {
 
   const hallway = new THREE.Group();
   hallway.name = 'hallway-placeholder';
+  // Stand-in until the actual fixture is identified.  All fixture sizes are guesses.
+  const fixture = new THREE.Group();
+  fixture.name = 'hallway-fluorescent-placeholder';
+  fixture.position.set((minX + maxX) / 2, top, (nearZ + farMinZ) / 2);
+  const housing = new THREE.Mesh(new THREE.BoxGeometry(49, 1, 3), placeholderMaterial(CEILING_COLOR));
+  housing.position.y = -0.5;
+  const tube = new THREE.Mesh(new THREE.CylinderGeometry(0.75, 0.75, 48, 16), new THREE.MeshBasicMaterial({ color: 0xfffefa }));
+  tube.rotation.z = Math.PI / 2;
+  tube.position.y = -1.75;
+  fixture.add(housing, tube);
+  // Spread the neutral light along the tube in this inch-scale scene.
+  for (const x of [-16, 0, 16]) {
+    const light = new THREE.SpotLight(0xfffefa, 550, 120, Math.PI * 0.48, 0.35, 2);
+    light.position.set(x, -2.6, 0);
+    light.target.position.set(x, -top, 0);
+    fixture.add(light, light.target);
+  }
+  hallway.add(fixture);
   hallway.add(
     slab(floorOutline, null, -WALL.slab, 0, floorMaterial), // floor
     slab(rectOutline(ceilingOuter), boothHole, top, top + WALL.slab, placeholderMaterial(CEILING_COLOR)), // ceiling
