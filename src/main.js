@@ -38,6 +38,7 @@ const scene = new THREE.Scene();
 function enableModelShadows(object) {
   if (object.isLight && object.shadow) {
     object.shadow.mapSize.set(1024, 1024);
+    object.shadow.radius = 2;
   }
   if (object.isMesh) {
     object.castShadow = true;
