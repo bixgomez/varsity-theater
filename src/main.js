@@ -34,6 +34,21 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
+// Apply the same shadow defaults to assembled models and later additions.
+function enableModelShadows(object) {
+  if (object.isMesh) {
+    object.castShadow = true;
+    object.receiveShadow = true;
+  }
+  object.addEventListener('childadded', onModelChildAdded);
+  for (const child of object.children) enableModelShadows(child);
+}
+
+function onModelChildAdded(event) {
+  enableModelShadows(event.child);
+}
+
+enableModelShadows(scene);
 // Seen through the windows and door: a dim, cool blue, like the photos.
 scene.background = new THREE.Color(0x1c2733);
 
