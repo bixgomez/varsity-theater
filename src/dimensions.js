@@ -118,6 +118,9 @@ export const EAST_CLOCK = { size: 10, gap: 8, centerY: 66, depth: 1.5 };
 //   the booth's north wall to the north wall; the south one runs from the
 //   booth's south wall to the floor's south edge.  4 in like the other
 //   interior walls; a stand-in, not a measurement.
+// sideDoorWidth, sideDoorHeight: a door opening centered in each of those side
+//   walls (Richard's "30 in door opening in the center", Nov 19).  The 80 in
+//   height matches the office opening; it's a guess, not a measurement.
 export const HALLWAY = {
   width: 52,
   wallThickness: 4,
@@ -131,6 +134,8 @@ export const HALLWAY = {
   northWallThickness: 4,
   sideWallFromEast: 40,
   sideWallThickness: 4,
+  sideDoorWidth: 30,
+  sideDoorHeight: 80,
 };
 
 // The floor drops away right in front of the booth: the booth's west wall

@@ -89,7 +89,7 @@ function wallWithDoorway(xMin, xMax, zMin, zMax, top, doorMinX, doorMaxX, doorTo
 // wall's north end, with an opening into the office.  A placeholder wall closes
 // off the north end of the outside floor; the south end is left open.  Two
 // more placeholder walls stand north and south of the booth, 40 in in from
-// its east face.  The
+// its east face, each with a door opening in its center.  The
 // floor and ceiling run 48 in past the booth's north and south sides for now.
 // On the west side the ceiling runs 20 ft past the booth, and the floor stops
 // at the booth's west wall, which carries on down below it (booth.js), so the
@@ -192,20 +192,24 @@ export function buildHallway() {
   // floor to ceiling, with their east faces 40 in west of the booth's outer
   // east face.  The north one fills the gap between the booth and the north
   // wall; the south one runs from the booth out to the floor's south edge.
+  // Each has a door opening centered along its length.
   const sideWallMaxZ = nearZ - H.sideWallFromEast;
   const sideWallMinZ = sideWallMaxZ - H.sideWallThickness;
-  const sideWalls = [
-    ['north-side-wall-placeholder', box(boothHole.maxX, northWall.minX, 0, top, sideWallMinZ, sideWallMaxZ)],
-    ['south-side-wall-placeholder', box(sideMinX, boothHole.minX, 0, top, sideWallMinZ, sideWallMaxZ)],
-  ];
-  for (const [name, b] of sideWalls) {
-    const mesh = placeholder(
-      new THREE.BoxGeometry(b.maxX - b.minX, top, b.maxZ - b.minZ),
-      placeholderMaterial(HALL_WALL_COLOR),
-    );
+  const sideWallBoxes = [];
+  for (const [name, xMin, xMax] of [
+    ['north-side-wall-placeholder', boothHole.maxX, northWall.minX],
+    ['south-side-wall-placeholder', sideMinX, boothHole.minX],
+  ]) {
+    const doorMinX = (xMin + xMax - H.sideDoorWidth) / 2;
+    const doorMaxX = doorMinX + H.sideDoorWidth;
+    const mesh = wallWithDoorway(xMin, xMax, sideWallMinZ, sideWallMaxZ, top, doorMinX, doorMaxX, H.sideDoorHeight);
     mesh.name = name;
-    mesh.position.set((b.minX + b.maxX) / 2, top / 2, (b.minZ + b.maxZ) / 2);
     hallway.add(mesh);
+    sideWallBoxes.push(
+      box(xMin, doorMinX, 0, top, sideWallMinZ, sideWallMaxZ),
+      box(doorMaxX, xMax, 0, top, sideWallMinZ, sideWallMaxZ),
+      box(doorMinX, doorMaxX, H.sideDoorHeight, top, sideWallMinZ, sideWallMaxZ),
+    );
   }
 
   const obstacles = [
@@ -214,7 +218,7 @@ export function buildHallway() {
     ...wallBoxes(farMinZ, farMaxZ, minX),
     ...wallBoxes(jutMinZ, farMinZ, jutMinX),
     northWall,
-    ...sideWalls.map(([, b]) => b),
+    ...sideWallBoxes,
   ];
   return { hallway, obstacles };
 }
