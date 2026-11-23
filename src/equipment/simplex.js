@@ -101,13 +101,34 @@ export function buildSimplex35() {
   body.name = 'projector-head';
   g.add(body);
 
+  // The film compartment and operator controls are on the north side of the
+  // projector, matching the reference machine and the threading zone.
   const filmDoor = new THREE.Mesh(
-    new THREE.BoxGeometry(8, 16, 0.6),
+    new THREE.BoxGeometry(0.6, 16, 12),
     mat(PANEL, { metalness: 0.35 }),
   );
-  filmDoor.position.set(s.lensFromSouth, s.bodyBottom + 15, 1.5);
+  filmDoor.position.set(s.baseWidth - 0.3, s.bodyBottom + 15, 12);
   filmDoor.name = 'film-compartment';
   g.add(filmDoor);
+
+  const controls = new THREE.Mesh(
+    new THREE.BoxGeometry(0.6, 8, 5),
+    mat(DARK, { metalness: 0.45 }),
+  );
+  controls.position.set(s.baseWidth - 0.3, s.bodyBottom + 7, 5);
+  controls.name = 'operator-controls';
+  g.add(controls);
+
+  for (const y of [s.bodyBottom + 5, s.bodyBottom + 8, s.bodyBottom + 11]) {
+    const knob = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.8, 0.8, 0.8, 16),
+      mat(STEEL, { metalness: 0.8, roughness: 0.35 }),
+    );
+    knob.rotation.z = Math.PI / 2;
+    knob.position.set(s.baseWidth + 0.1, y, 5);
+    knob.name = 'operator-control';
+    g.add(knob);
+  }
 
   const lensPlate = new THREE.Mesh(
     new THREE.BoxGeometry(7, 7, 0.5),
@@ -138,7 +159,7 @@ export function buildSimplex35() {
     mat(DARK, { metalness: 0.5 }),
   );
   soundhead.rotation.z = Math.PI / 2;
-  soundhead.position.set(2.5, 31, 17);
+  soundhead.position.set(s.baseWidth - 2.5, 31, 17);
   soundhead.name = 'soundhead';
   g.add(soundhead);
 
@@ -146,12 +167,12 @@ export function buildSimplex35() {
     new THREE.BoxGeometry(3, s.supplyReelCenterY - (s.bodyBottom + s.bodyHeight), 3),
     mat(STEEL, { metalness: 0.8, roughness: 0.35 }),
   );
-  arm.position.set(4, (s.supplyReelCenterY + s.bodyBottom + s.bodyHeight) / 2, 13);
+  arm.position.set(s.baseWidth - 4, (s.supplyReelCenterY + s.bodyBottom + s.bodyHeight) / 2, 13);
   arm.name = 'reel-arm';
   g.add(arm);
 
   const supplyReel = buildReel(s.supplyReelRadius, s.reelThickness, mat(STEEL, { metalness: 0.9, roughness: 0.25 }));
-  supplyReel.position.set(4, s.supplyReelCenterY, 13);
+  supplyReel.position.set(s.baseWidth - 4, s.supplyReelCenterY, 13);
   supplyReel.name = 'supply-reel';
   g.add(supplyReel);
 
