@@ -64,15 +64,16 @@ Refreshing the page puts you back where you were, facing the same way, with the 
 - **Done:** the conduit ledge and vertical conduit on the west wall, and the duct and exhaust box in the ceiling.  The vertical conduit's top height and the exhaust box's position along the wall are guesses.
 - **Done:** the wedge-shaped control box on the conduit ledge (plain; no switches yet).
 - **Done:** the open door, and the shelves and wall clock on the east wall.
+- **Rough:** PR1014-style 35mm projector placeholders at the low ports on either side of the Barco.  Their dimensions, reel heights, and yellow threading zones are guesses until the machines can be measured.
 - **Rough:** a placeholder for the hallway east of the booth (52 in wide, with the office jut and its opening), from remembered numbers.  Its walls are light gray (the real ones are painted white) and its ceiling is the same soft white as the booth ceiling.  The balcony and the doorway north of the booth aren't modeled yet.
-- **Not yet:** 35mm projectors and finishing touches (colors, lighting).
+- **Not yet:** measured 35mm projector geometry and finishing touches (colors, lighting).
 
 ## Plan
 
 The goal is to decide where the Barco and the two 35mm projectors go.  The current idea is the digital projector in the center, with a 35 on each side and room to thread film on the right of each 35.
 
 1. Make the Barco movable, so you can slide it between ports and change the stand height.
-2. Add the 35mm projectors (their sizes aren't known yet, so they start as placeholders).
+2. Measure the Simplex 35 projectors in storage, then replace the placeholders with their real dimensions and reel heights.
 3. Check the hallway numbers on site, then rough in the balcony once the open questions in `MEASUREMENTS.md` are answered.
 4. Finishing touches.
 

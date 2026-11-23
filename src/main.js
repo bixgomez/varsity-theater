@@ -8,6 +8,7 @@ import { bindVisibilityPanel } from './visibility-panel.js';
 import { loadSession, saveSessionOnLeave } from './session.js';
 import { BARCO, buildBarco, placeBarco } from './equipment/barco.js';
 import { buildStand } from './equipment/stand.js';
+import { buildSimplex35, placeSimplex35 } from './equipment/simplex.js';
 import { buildHallway } from './outside.js';
 import {
   buildElectricalCloset,
@@ -71,6 +72,25 @@ const barcoFootprint = placeBarco(barco, {
 const { stand, footprint: standFootprint } = buildStand({ ...barcoFootprint, minZ: barcoFootprint.maxZ - BARCO.length, top: barcoFootprint.bottom });
 scene.add(barco, stand);
 
+// PR1014-style 35mm placeholders, aligned with the low ports on either side
+// of the Barco.  Their dimensions and reel heights are guesses until the
+// projectors can be measured in storage.
+const SOUTH_35_TARGET = WINDOWS.find((w) => w.n === 3);
+const NORTH_35_TARGET = WINDOWS.find((w) => w.n === 5);
+const simplexSouth = buildSimplex35();
+const simplexSouthFootprint = placeSimplex35(simplexSouth, {
+  lensX: (SOUTH_35_TARGET.x0 + SOUTH_35_TARGET.x1) / 2,
+  lensY: (SOUTH_35_TARGET.y0 + SOUTH_35_TARGET.y1) / 2,
+  lensFrontZ: 3,
+});
+const simplexNorth = buildSimplex35();
+const simplexNorthFootprint = placeSimplex35(simplexNorth, {
+  lensX: (NORTH_35_TARGET.x0 + NORTH_35_TARGET.x1) / 2,
+  lensY: (NORTH_35_TARGET.y0 + NORTH_35_TARGET.y1) / 2,
+  lensFrontZ: 3,
+});
+scene.add(simplexSouth, simplexNorth);
+
 const { closet, footprint: closetFootprint } = buildElectricalCloset();
 const { table: rewindTable, footprint: tableFootprint } = buildRewindTable();
 const controlBox = buildControlBox();
@@ -103,6 +123,24 @@ const toggleable = [
       { ...barcoFootprint, maxZ: Math.max(barcoFootprint.maxZ, standFootprint.maxZ), ...inBooth },
       { ...standFootprint, ...inBooth },
     ],
+  },
+  {
+    id: 'simplex-35-south',
+    label: 'South 35mm (PR1014 placeholder)',
+    objects: [simplexSouth],
+    obstacles: [{ ...simplexSouthFootprint, ...inBooth }],
+  },
+  {
+    id: 'simplex-35-north',
+    label: 'North 35mm (PR1014 placeholder)',
+    objects: [simplexNorth],
+    obstacles: [{ ...simplexNorthFootprint, ...inBooth }],
+  },
+  {
+    id: 'simplex-35-threading',
+    label: '35mm threading clearance (guess)',
+    objects: [simplexSouth.userData.threadingZone, simplexNorth.userData.threadingZone],
+    obstacles: [],
   },
   {
     id: 'rewind-table',
