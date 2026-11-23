@@ -75,7 +75,7 @@ scene.add(barco, stand);
 // PR1014-style 35mm placeholders, aligned with the low ports on either side
 // of the Barco.  Their dimensions and reel heights are guesses until the
 // projectors can be measured in storage.
-const SOUTH_35_TARGET = WINDOWS.find((w) => w.n === 3);
+const SOUTH_35_TARGET = WINDOWS.find((w) => w.n === 1);
 const NORTH_35_TARGET = WINDOWS.find((w) => w.n === 5);
 const simplexSouth = buildSimplex35();
 const simplexSouthFootprint = placeSimplex35(simplexSouth, {
